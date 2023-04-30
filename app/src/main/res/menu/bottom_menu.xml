@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/recetasLocal"
+        android:icon="@drawable/baseline_home_24"
+        android:title="Mis recetas" />
+    <item
+        android:id="@+id/perfil"
+        android:icon="@drawable/baseline_person_24"
+        android:title="Perfil" />
+    <item
+        android:id="@+id/experto"
+        android:icon="@drawable/baseline_auto_awesome_24"
+        android:title="Experto IA" />
+</menu>
