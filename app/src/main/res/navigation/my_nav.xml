@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/recetasLocal">
+    app:startDestination="@id/comunidad">
 
     <fragment
-        android:id="@+id/recetasLocal"
-        android:name="com.example.proyectofinal.RecetasLocal"
+        android:id="@+id/comunidad"
+        android:name="com.example.proyectofinal.Comunidad"
         android:label="fragment_recetas_local"
-        tools:layout="@layout/fragment_recetas_local" />
+        tools:layout="@layout/fragment_comunidad" />
     <fragment
         android:id="@+id/perfil"
         android:name="com.example.proyectofinal.Perfil"
@@ -20,4 +20,9 @@
         android:name="com.example.proyectofinal.ExpertoIA"
         android:label="fragment_experto"
         tools:layout="@layout/fragment_experto" />
+    <fragment
+        android:id="@+id/anadirReceta"
+        android:name="com.example.proyectofinal.AnadirReceta"
+        android:label="fragment_anadir_receta"
+        tools:layout="@layout/fragment_anadir_receta" />
 </navigation>
