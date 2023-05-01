@@ -33,7 +33,7 @@ public class AdaptadorListaRecetas extends RecyclerView.Adapter<ListaRecetasView
     public void onBindViewHolder(@NonNull ListaRecetasViewHolder holder, int position) {
         holder.titulo.setText(listaTit[position]);
         holder.titulo.setSelected(true);
-        holder.num_likes.setText("20 likes");
+        //holder.num_likes.setText("20 likes");
         holder.tiempo_preparacion.setText("10 minutos");
        /* holder.titulo.setText(list.get(position).title);
         holder.titulo.setSelected(true);
@@ -57,7 +57,7 @@ class ListaRecetasViewHolder extends RecyclerView.ViewHolder{
         recetas_lay = itemView.findViewById(R.id.recetas_lay);
         titulo = itemView.findViewById(R.id.titulo);
         tiempo_preparacion = itemView.findViewById(R.id.tiempo_preparacion);
-        num_likes = itemView.findViewById(R.id.num_likes);
+        //num_likes = itemView.findViewById(R.id.num_likes);
         imagen_comida = itemView.findViewById(R.id.imagen_comida);
     }
 }
