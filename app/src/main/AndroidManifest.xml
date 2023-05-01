@@ -9,7 +9,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/patatalogo"
         android:supportsRtl="true"
         android:label="Cooking Papa"
         android:theme="@style/Theme.ProyectoFinal"
