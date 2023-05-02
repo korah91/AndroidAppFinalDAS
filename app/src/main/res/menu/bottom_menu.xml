@@ -14,7 +14,7 @@
         android:icon="@drawable/baseline_person_24"
         android:title="Perfil" />
     <item
-        android:id="@+id/experto"
-        android:icon="@drawable/baseline_auto_awesome_24"
-        android:title="Experto IA" />
+        android:id="@+id/opciones"
+        android:icon="@drawable/baseline_menu_24"
+        android:title="Opciones" />
 </menu>

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ProyectoFinal</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Pantalla de opciones</string>
     <string name="Registro_words"><u>¿No tienes cuenta? REGISTRATE</u></string>
     <string name="login_button">Iniciar Sesion</string>
     <string name="invitado_button">Modo Invitado</string>
@@ -9,4 +9,7 @@
     <string name="password_text">Introduce tu contraseña</string>
     <string name="registrar_button">REGISTRARME</string>
     <string name="password_text_regis_2">Repite la contraseña</string>
+    <string name="supermarket"><u>Supermercados</u></string>
+    <string name="IA"><u>Recetas con la IA</u></string>
+    <string name="ruleta"><u>Recetas aleatorias</u></string>
 </resources>

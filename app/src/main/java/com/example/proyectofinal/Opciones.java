@@ -1,23 +1,22 @@
 package com.example.proyectofinal;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ExpertoIA#newInstance} factory method to
+ * Use the {@link Opciones#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ExpertoIA extends Fragment {
-
-    private String urlChat = "https://www.chatpdf.com/share/x-QVavpw2s9vfqyP3B9-e";
+public class Opciones extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,7 +27,7 @@ public class ExpertoIA extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ExpertoIA() {
+    public Opciones() {
         // Required empty public constructor
     }
 
@@ -38,11 +37,11 @@ public class ExpertoIA extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment experto.
+     * @return A new instance of fragment Opciones.
      */
     // TODO: Rename and change types and number of parameters
-    public static ExpertoIA newInstance(String param1, String param2) {
-        ExpertoIA fragment = new ExpertoIA();
+    public static Opciones newInstance(String param1, String param2) {
+        Opciones fragment = new Opciones();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,16 +61,21 @@ public class ExpertoIA extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-
-        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        CustomTabsIntent customTabsIntent = builder.build();
-        customTabsIntent.intent.setPackage("com.android.chrome");
-        customTabsIntent.launchUrl(this.getContext(), Uri.parse(urlChat));
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_experto, container, false);
+        View view =  inflater.inflate(R.layout.fragment_opciones, container, false);
+        ImageView robot = (ImageView) view.findViewById(R.id.opcion2);
+        robot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                expertoIA();
+            }
+        });
 
+        return view;
+    }
+
+    public void expertoIA(){
+        Intent ia = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.chatpdf.com/share/iLS1v2wbxppw50l6OtR5G"));
+        startActivity(ia);
     }
 }

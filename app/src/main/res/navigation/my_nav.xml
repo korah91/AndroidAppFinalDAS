@@ -16,10 +16,10 @@
         android:label="fragment_perfil"
         tools:layout="@layout/fragment_perfil" />
     <fragment
-        android:id="@+id/experto"
-        android:name="com.example.proyectofinal.ExpertoIA"
-        android:label="fragment_experto"
-        tools:layout="@layout/fragment_experto" />
+        android:id="@+id/opciones"
+        android:name="com.example.proyectofinal.Opciones"
+        android:label="fragment_opciones"
+        tools:layout="@layout/fragment_opciones" />
     <fragment
         android:id="@+id/anadirReceta"
         android:name="com.example.proyectofinal.AnadirReceta"

@@ -29,8 +29,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     //private String urlChat = "https://www.google.com";
-    AdaptadorListaRecetas adaptadorListaRecetas;
-    RecyclerView recyclerView;
+    //AdaptadorListaRecetas adaptadorListaRecetas;
+    //RecyclerView recyclerView;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -38,11 +38,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.recycler_lista);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 1));
-        adaptadorListaRecetas = new AdaptadorListaRecetas(MainActivity.this); //Aqui se le pasaria una lista con las recetas tambien
-        recyclerView.setAdapter(adaptadorListaRecetas);
+        //recyclerView = findViewById(R.id.recycler_lista);
+        //recyclerView.setHasFixedSize(true);
+        //recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 1));
+        //adaptadorListaRecetas = new AdaptadorListaRecetas(MainActivity.this); //Aqui se le pasaria una lista con las recetas tambien
+        //recyclerView.setAdapter(adaptadorListaRecetas);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
