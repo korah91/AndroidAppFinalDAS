@@ -1,6 +1,7 @@
 package com.example.proyectofinal;
 
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -63,7 +64,14 @@ public class Opciones extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_opciones, container, false);
+        ImageView mapas = (ImageView) view.findViewById(R.id.opcion1);
         ImageView robot = (ImageView) view.findViewById(R.id.opcion2);
+        mapas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mapas();
+            }
+        });
         robot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +80,11 @@ public class Opciones extends Fragment {
         });
 
         return view;
+    }
+
+    public void mapas(){
+        Intent map = new Intent(getContext(), Mapas.class);
+        startActivity(map);
     }
 
     public void expertoIA(){
