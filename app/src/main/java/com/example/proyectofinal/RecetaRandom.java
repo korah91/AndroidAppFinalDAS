@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -15,6 +16,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -45,6 +47,27 @@ public class RecetaRandom extends AppCompatActivity {
         protected void onCreate (Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_receta_random);
+
+            //Se comprueban las preferencias
+            Bundle extrasPreferencias = getIntent().getExtras();
+            if (extrasPreferencias != null){
+                ArrayList<String> listaPreferencias = extrasPreferencias.getStringArrayList("preferencias");
+                if (listaPreferencias.size() != 0){
+                    Log.d("Prueba_Preferencias", "Preferencias --> " + listaPreferencias.get(0));
+                    if (listaPreferencias.size() == 3){
+                        Toast.makeText(this, "Preferencias : \n- " + listaPreferencias.get(0) + "\n- " + listaPreferencias.get(1) + "\n- " + listaPreferencias.get(2) , Toast.LENGTH_SHORT).show();
+                    }
+                    else if (listaPreferencias.size() == 2){
+                        Toast.makeText(this, "Preferencias : \n- " + listaPreferencias.get(0) + "\n- " + listaPreferencias.get(1), Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(this, "Preferencias : " + listaPreferencias.get(0), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    Toast.makeText(this, "No hay preferencias", Toast.LENGTH_SHORT).show();
+                }
+            }
 
             //Luego hay que borrar
             listaPart.add("Macarrones");

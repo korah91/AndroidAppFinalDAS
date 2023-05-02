@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,28 +122,28 @@ public class Opciones extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Elige tus preferencias");
         final CharSequence[] opciones = {"Vegano", "Vegetariano", "Sin Glúten"};
-        final ArrayList<Integer> elegidos = new ArrayList<>();
+        final ArrayList<CharSequence> elegidos = new ArrayList<>();
         builder.setMultiChoiceItems(opciones, null, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 if (isChecked == true){
-                    elegidos.add(which);
+                    //Se añaden los strings
+                    elegidos.add(opciones[which]);
                 }
-                else if (elegidos.contains(which)){
-                    elegidos.remove(Integer.valueOf(which));
+                else if (elegidos.contains(opciones[which])){
+                    elegidos.remove(opciones[which]);
                 }
             }
         });
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (elegidos.size() != 0){
-                    Intent random = new Intent(getContext(), RecetaRandom.class);
-                    startActivity(random);
-                }
-                else {
-                    Toast.makeText(getActivity(), "Debes seleccionar al menos 1 opción", Toast.LENGTH_SHORT).show();
-                }
+                Intent random = new Intent(getContext(), RecetaRandom.class);
+                Log.d("Prueba", "Elegidos --> " + elegidos);
+                random.putExtra("preferencias",elegidos);
+                startActivity(random);
+                //Para que cuando retrocedas de la actividad de la ruleta no se active solo
+                activarDialog = false;
             }
         });
 
