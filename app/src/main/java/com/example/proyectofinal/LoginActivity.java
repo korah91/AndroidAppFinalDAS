@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("Inicio_Prueba", "lista[0] --> " + lista[0]);
                         if (lista[0].equals(user) && lista[1].equals(pass)) {
                             Intent inicio = new Intent(LoginActivity.this, MainActivity.class);
+                            inicio.putExtra("user", user);
                             startActivity(inicio);
                             finish();
                         } else {
@@ -69,7 +70,6 @@ public class LoginActivity extends AppCompatActivity {
     public void invitado(View view){
         Intent inicio = new Intent(LoginActivity.this, MainActivity.class);
         inicio.putExtra("user", user);
-        inicio.putExtra("pass", pass);
         startActivity(inicio);
     }
 }

@@ -65,7 +65,7 @@ public class Perfil extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_perfil, container, false);
         usuario = (TextView) view.findViewById(R.id.usuario);
         opciones = (TextView) view.findViewById(R.id.preferencias);
-
+        usuario.setText(""); //Utilizar variable que venga de MainActivity
 
         return view;
     }

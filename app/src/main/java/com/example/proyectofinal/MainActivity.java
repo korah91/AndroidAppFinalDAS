@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     //private String urlChat = "https://www.google.com";
     //AdaptadorListaRecetas adaptadorListaRecetas;
     //RecyclerView recyclerView;
-    String usuario;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Usuario de LoginActivity
         Bundle extras = getIntent().getExtras();
-        usuario = extras.getString("usuario");
+        String usuario = extras.getString("user");
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
@@ -55,8 +54,4 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
     }
-    public String getUser(){
-        return usuario;
-    }
-
 }
