@@ -15,7 +15,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
-
+    String user;
+    String pass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +32,8 @@ public class LoginActivity extends AppCompatActivity {
         EditText user_text = findViewById(R.id.mail_text);
         EditText psw_text = findViewById(R.id.password_text);
 
-        String user = user_text.getText().toString().toLowerCase();
-        String pass = psw_text.getText().toString();
+        user = user_text.getText().toString().toLowerCase();
+        pass = psw_text.getText().toString();
 
         Log.d("Prueba_Login", "usuarioo --> " + user + "\nPass --> " + pass);
 
@@ -67,6 +68,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void invitado(View view){
         Intent inicio = new Intent(LoginActivity.this, MainActivity.class);
+        inicio.putExtra("user", user);
+        inicio.putExtra("pass", pass);
         startActivity(inicio);
     }
 }
