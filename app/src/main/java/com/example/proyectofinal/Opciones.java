@@ -1,16 +1,22 @@
 package com.example.proyectofinal;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +33,7 @@ public class Opciones extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private boolean activarDialog;
 
     public Opciones() {
         // Required empty public constructor
@@ -57,6 +64,14 @@ public class Opciones extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        if (savedInstanceState != null){
+            activarDialog = savedInstanceState.getBoolean("dialog");
+        }
+
+        if (activarDialog == true){
+            activarDialog();
+        }
     }
 
     @Override
@@ -66,6 +81,7 @@ public class Opciones extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_opciones, container, false);
         ImageView mapas = (ImageView) view.findViewById(R.id.opcion1);
         ImageView robot = (ImageView) view.findViewById(R.id.opcion2);
+        ImageView random = (ImageView) view.findViewById(R.id.opcion3);
         mapas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,17 +94,65 @@ public class Opciones extends Fragment {
                 expertoIA();
             }
         });
+        random.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {recetaRandom();}
+        });
 
         return view;
     }
 
-    public void mapas(){
+    private void mapas(){
         Intent map = new Intent(getContext(), Mapas.class);
         startActivity(map);
     }
 
-    public void expertoIA(){
+    private void expertoIA(){
         Intent ia = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.chatpdf.com/share/iLS1v2wbxppw50l6OtR5G"));
         startActivity(ia);
+    }
+
+    private void recetaRandom(){
+        activarDialog();
+    }
+
+    private void activarDialog(){
+        activarDialog = true;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Elige tus preferencias");
+        final CharSequence[] opciones = {"Vegano", "Vegetariano", "Sin Glúten"};
+        final ArrayList<Integer> elegidos = new ArrayList<>();
+        builder.setMultiChoiceItems(opciones, null, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                if (isChecked == true){
+                    elegidos.add(which);
+                }
+                else if (elegidos.contains(which)){
+                    elegidos.remove(Integer.valueOf(which));
+                }
+            }
+        });
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (elegidos.size() != 0){
+                    Intent random = new Intent(getContext(), RecetaRandom.class);
+                    startActivity(random);
+                }
+                else {
+                    Toast.makeText(getActivity(), "Debes seleccionar al menos 1 opción", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("dialog", activarDialog);
     }
 }

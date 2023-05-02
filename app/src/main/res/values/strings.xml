@@ -12,4 +12,6 @@
     <string name="supermarket"><u>Supermercados</u></string>
     <string name="IA"><u>Recetas con la IA</u></string>
     <string name="ruleta"><u>Recetas aleatorias</u></string>
+    <string name="tv_recetaRandom"><u>Receta aleatoria del día</u></string>
+    <string name="btn_spin">Iniciar</string>
 </resources>
