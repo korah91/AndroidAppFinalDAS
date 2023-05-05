@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/uno"
     android:layout_height="match_parent">
 
     <ImageView
@@ -26,6 +27,9 @@
         android:ems="10"
         android:hint="@string/mail_text"
         android:inputType="textEmailAddress"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/black"
+        android:textColorHint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/password_text"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +44,9 @@
         android:ems="10"
         android:hint="@string/password_text"
         android:inputType="textPassword"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/black"
+        android:textColorHint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/mail_text"
