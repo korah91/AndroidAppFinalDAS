@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,6 +100,12 @@ public class AnadirReceta extends Fragment {
         CheckBox checkBox_sinGluten = v.findViewById(R.id.checkBox_sinGluten);
         Boolean vegetariano, vegano, sinGluten;
 
+        // Receta por defecto
+        et_nombreReceta.setText("Receta de ejemplo");
+        et_minutos.setText("45");
+        et_ingredientes.setText("1. Reúne los ingredientes \n2. Blablabla");
+
+
         // Listeners de los checkboxes de vegetariano, vegano y sinGluten
         checkBox_vegano.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,82 +122,97 @@ public class AnadirReceta extends Fragment {
             @Override
             public void onClick(View view) {
 
-                // Leo los valores introducidos
-                String nombreReceta = et_nombreReceta.getText().toString();
-                String minutos = et_minutos.getText().toString();
-                String ingredientes = et_ingredientes.getText().toString();
-
-                Boolean estadoVegano = checkBox_vegano.isChecked();
-                Boolean estadoVegetariano = false;
-                Boolean estadoSinGluten = checkBox_sinGluten.isChecked();
-
-                // Si se ha checkeado vegano siempre es vegetariano, da igual si se ha quitado el check de vegetariano.
-                if (estadoVegano) {
-                    estadoVegetariano = true;
+                // Compruebo que no estan vacios los input
+                if(TextUtils.isEmpty(et_nombreReceta.getText().toString())){
+                    Toast.makeText(getContext(), "Introduce el nombre", Toast.LENGTH_SHORT).show();
                 }
-                // Si no es vegano se lee el checkbox
+                else if(TextUtils.isEmpty(et_minutos.getText().toString())){
+                    Toast.makeText(getContext(), "Introduce los minutos", Toast.LENGTH_SHORT).show();
+                }
+                else if(TextUtils.isEmpty(et_ingredientes.getText().toString())){
+                    Toast.makeText(getContext(), "Introduce los ingredientes", Toast.LENGTH_SHORT).show();
+                }
+                // Si esta todo lo necesario se realiza la conexion
+
                 else{
-                    estadoVegetariano = checkBox_vegetariano.isChecked();
-                }
+                    // Leo los valores introducidos
+                    String nombreReceta = et_nombreReceta.getText().toString();
+                    int minutos = Integer.parseInt(et_minutos.getText().toString());
 
+                    String ingredientes = et_ingredientes.getText().toString();
 
+                    Boolean estadoVegano = checkBox_vegano.isChecked();
+                    Boolean estadoVegetariano = false;
+                    Boolean estadoSinGluten = checkBox_sinGluten.isChecked();
 
-                // Utilizo la libreria OkHttp
-                OkHttpClient client = new OkHttpClient();
-                MediaType mediaType = MediaType.parse("application/json");
-
-                // Crear un objeto JSON con los campos correspondientes
-                JSONObject json = new JSONObject();
-                try {
-                    json.put("nombreReceta", nombreReceta);
-                    json.put("minutos", minutos);
-                    json.put("ingredientes", ingredientes);
-                    json.put("vegetariano", estadoVegetariano);
-                    json.put("vegano", estadoVegano);
-                    json.put("sinGluten", estadoSinGluten);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-                RequestBody body = RequestBody.create(mediaType, json.toString());
-
-                Log.d("anadirReceta", json.toString());
-
-
-
-                Request request = new Request.Builder()
-                        .url("http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/eonate006/WEB/Proyecto_final/insert_Nueva_Receta.php")
-                        .post(body)
-                        .build();
-
-                Call call = client.newCall(request);
-                call.enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        // Error de conexión o I/O
-                        Toast.makeText(getActivity(), "No se ha podido añadir la receta", Toast.LENGTH_SHORT).show();
-                        Log.d("anadirReceta", "No ha podido añadir la receta");
-                        Log.d("anadirReceta", e.toString());
+                    // Si se ha checkeado vegano siempre es vegetariano, da igual si se ha quitado el check de vegetariano.
+                    if (estadoVegano) {
+                        estadoVegetariano = true;
+                    }
+                    // Si no es vegano se lee el checkbox
+                    else{
+                        estadoVegetariano = checkBox_vegetariano.isChecked();
                     }
 
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        try {
-                            if (response.isSuccessful()) {
-                                // Solicitud exitosa
-                                Toast.makeText(context, "Se ha añadido la receta", Toast.LENGTH_SHORT).show();
-                                Log.d("anadirReceta", "Se ha añadido la receta");
-                            } else {
-                                // Solicitud fallida
 
-                                Log.d("anadirReceta", "Error al añadir la receta: " + response);
-                            }
-                        } catch (Exception e) {
-                            Log.e("anadirReceta", "Ha saltado una excepcion", e);
+
+                    // Utilizo la libreria OkHttp
+                    OkHttpClient client = new OkHttpClient();
+                    MediaType mediaType = MediaType.parse("application/json");
+
+                    // Crear un objeto JSON con los campos correspondientes
+                    JSONObject json = new JSONObject();
+                    try {
+                        json.put("nombreReceta", nombreReceta);
+                        json.put("minutos", minutos);
+                        json.put("ingredientes", ingredientes);
+                        json.put("instrucciones", "blabla");
+                        json.put("vegetariano", estadoVegetariano ? 1 : 0); //Si es true mando 1, si false mando 0
+                        json.put("vegano", estadoVegano ? 1 : 0);
+                        json.put("sinGluten", estadoSinGluten ? 1 : 0);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    RequestBody body = RequestBody.create(mediaType, json.toString());
+
+                    Log.d("anadirReceta", json.toString());
+
+
+
+                    Request request = new Request.Builder()
+                            .url("http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/eonate006/WEB/Proyecto_final/insert_Nueva_Receta.php")
+                            .post(body)
+                            .build();
+
+                    Call call = client.newCall(request);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            // Error de conexión o I/O
+                            Toast.makeText(getActivity(), "No se ha podido añadir la receta", Toast.LENGTH_SHORT).show();
+                            Log.d("anadirReceta", "No ha podido añadir la receta");
+                            Log.d("anadirReceta", e.toString());
                         }
-                        response.close();
-                    }
-                });
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            try {
+                                if (response.isSuccessful()) {
+                                    // Solicitud exitosa
+                                    Log.d("anadirReceta", "Se ha añadido la receta. "+ response.body().string());
+                                } else {
+                                    // Solicitud fallida
+
+                                    Log.d("anadirReceta", "Error al añadir la receta: " + response);
+                                }
+                            } catch (Exception e) {
+                                Log.e("anadirReceta", "Ha saltado una excepcion", e);
+                            }
+                            response.close();
+                        }
+                    });
+                }
             }
         });
 
