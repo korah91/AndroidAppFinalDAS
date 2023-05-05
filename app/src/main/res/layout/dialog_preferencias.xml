@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_preferencias"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="301dp" />
+
+    <CheckBox
+        android:id="@+id/cb_vegano"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Vegano"
+        app:layout_constraintBottom_toTopOf="@+id/cb_vegetariano"
+        tools:layout_editor_absoluteX="59dp" />
+
+    <CheckBox
+        android:id="@+id/cb_sinGluten"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="85dp"
+        android:text="Sin Gluten"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        tools:layout_editor_absoluteX="59dp" />
+
+    <ImageView
+        android:id="@+id/iv_vegano"
+        android:layout_width="36dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="92dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/iv_vegetariano"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/cb_vegano"
+        app:srcCompat="@drawable/vegan_icon" />
+
+    <ImageView
+        android:id="@+id/iv_sinGluten"
+        android:layout_width="34dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="79dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginBottom="97dp"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/cb_sinGluten"
+        app:srcCompat="@drawable/trigo" />
+
+    <ImageView
+        android:id="@+id/iv_vegetariano"
+        android:layout_width="36dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/iv_sinGluten"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/cb_vegetariano"
+        app:srcCompat="@drawable/vegetarian_icon" />
+
+    <CheckBox
+        android:id="@+id/cb_vegetariano"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="Vegetariano"
+        app:layout_constraintBottom_toTopOf="@+id/cb_sinGluten"
+        tools:layout_editor_absoluteX="59dp" />
+
+    <TextView
+        android:id="@+id/tv_preferencias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Selecciona Tus Preferencias"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="51dp" />
+
+    <Button
+        android:id="@+id/bt_dialog_preferencias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="290dp"
+        android:layout_marginTop="216dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="37dp"
+        android:text="Avanzar"
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

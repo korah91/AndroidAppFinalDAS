@@ -133,6 +133,11 @@ public class Opciones extends Fragment {
             Intent postres = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.chatpdf.com/share/SQrD53QoNBvALFSRF5fSg"));
             startActivity(postres);
         }
+        else if (iaSeleccionada.equals("Oriental")){
+            //Cocina oriental
+            Intent oriental = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.chatpdf.com/share/7jRqbYT3duujMaFTOmW7U"));
+            startActivity(oriental);
+        }
     }
 
     private void recetaRandom(){
@@ -141,11 +146,11 @@ public class Opciones extends Fragment {
 
     private void activarDialogPreferencias(){
         activarDialogPreferencias = true;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Elige tus preferencias");
+        AlertDialog.Builder builderPreferencias = new AlertDialog.Builder(getActivity());
+        builderPreferencias.setTitle("Elige tus preferencias");
         final CharSequence[] opciones = {"Vegano", "Vegetariano", "Sin Glúten"};
         final ArrayList<CharSequence> elegidos = new ArrayList<>();
-        builder.setMultiChoiceItems(opciones, null, new DialogInterface.OnMultiChoiceClickListener() {
+        builderPreferencias.setMultiChoiceItems(opciones, null, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 if (isChecked == true){
@@ -157,7 +162,7 @@ public class Opciones extends Fragment {
                 }
             }
         });
-        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+        builderPreferencias.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent random = new Intent(getContext(), RecetaRandom.class);
@@ -169,22 +174,22 @@ public class Opciones extends Fragment {
             }
         });
 
-        builder.setCancelable(false);
-        builder.show();
+        builderPreferencias.setCancelable(false);
+        builderPreferencias.show();
     }
 
     private void activarDialogTipoRecetas(){
         activarDialogTipoRecetas = true;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Elige el experto que desees");
-        final CharSequence[] opciones = {"Tradicional Española", "Postres"};
-        builder.setSingleChoiceItems(opciones, -1, new DialogInterface.OnClickListener() {
+        AlertDialog.Builder builderRobot = new AlertDialog.Builder(getActivity());
+        builderRobot.setTitle("Elige el experto que desees");
+        final CharSequence[] opciones = {"Tradicional Española", "Postres", "Oriental"};
+        builderRobot.setSingleChoiceItems(opciones, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 iaSeleccionada = opciones[which].toString();
             }
         });
-        builder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+        builderRobot.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (iaSeleccionada != null){
@@ -195,8 +200,8 @@ public class Opciones extends Fragment {
                 }
             }
         });
-        builder.setCancelable(false);
-        builder.show();
+        builderRobot.setCancelable(false);
+        builderRobot.show();
     }
 
     @Override
