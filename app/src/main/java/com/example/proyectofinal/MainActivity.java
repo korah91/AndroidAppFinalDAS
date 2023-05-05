@@ -44,11 +44,14 @@ public class MainActivity extends AppCompatActivity {
         //adaptadorListaRecetas = new AdaptadorListaRecetas(MainActivity.this); //Aqui se le pasaria una lista con las recetas tambien
         //recyclerView.setAdapter(adaptadorListaRecetas);
 
+        //Usuario de LoginActivity
+        Bundle extras = getIntent().getExtras();
+        String usuario = extras.getString("user");
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
 
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
     }
-
 }
