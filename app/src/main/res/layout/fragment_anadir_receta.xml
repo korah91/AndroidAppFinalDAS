@@ -24,6 +24,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/black"
+                android:textColorHint="@color/black"
                 tools:src="@drawable/placeholder_comida" />
 
             <EditText
@@ -42,37 +45,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/iv_imagenComida"/>
 
             <EditText
-                android:id="@+id/et_minutos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:ems="10"
-                android:hint="Minutos"
-                android:inputType="textPersonName"
-                android:textColor="@color/black"
-                android:backgroundTint="@color/black"
-                android:textColorHint="@color/black"
-                app:layout_constraintStart_toStartOf="@+id/et_nombreReceta"
-                app:layout_constraintTop_toBottomOf="@+id/et_nombreReceta" />
-
-            <EditText
                 android:id="@+id/et_ingredientes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:ems="10"
+                android:gravity="top"
                 android:hint="Ingredientes"
                 android:inputType="textMultiLine"
-                android:gravity="top"
                 android:overScrollMode="always"
-                android:scrollbars="vertical"
                 android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
                 android:scrollHorizontally="false"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/black"
                 android:textColorHint="@color/black"
-                app:layout_constraintStart_toStartOf="@+id/et_minutos"
-                app:layout_constraintTop_toBottomOf="@+id/et_minutos" />
+                app:layout_constraintStart_toStartOf="@+id/seekBar_minutos"
+                app:layout_constraintTop_toBottomOf="@+id/seekBar_minutos" />
 
             <EditText
                 android:id="@+id/et_instrucciones"
@@ -81,7 +70,11 @@
                 android:layout_marginTop="32dp"
                 android:ems="10"
                 android:hint="Instrucciones"
-                android:inputType="textPersonName"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/black"
                 android:textColorHint="@color/black"
@@ -107,7 +100,10 @@
                 android:layout_marginTop="16dp"
                 android:text="Vegano"
                 app:layout_constraintStart_toStartOf="@+id/checkBox_vegetariano"
-                app:layout_constraintTop_toBottomOf="@+id/checkBox_vegetariano" />
+                app:layout_constraintTop_toBottomOf="@+id/checkBox_vegetariano"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/black"
+                android:textColorHint="@color/black"/>
 
             <CheckBox
                 android:id="@+id/checkBox_sinGluten"
@@ -116,7 +112,10 @@
                 android:layout_marginTop="16dp"
                 android:text="SinGluten"
                 app:layout_constraintStart_toStartOf="@+id/checkBox_vegano"
-                app:layout_constraintTop_toBottomOf="@+id/checkBox_vegano" />
+                app:layout_constraintTop_toBottomOf="@+id/checkBox_vegano"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/black"
+                android:textColorHint="@color/black"/>
 
             <Button
                 android:id="@+id/btn_guardarReceta"
@@ -129,6 +128,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_instrucciones" />
+
+            <SeekBar
+                android:id="@+id/seekBar_minutos"
+                android:layout_width="207dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/tv_minutos"
+
+                app:layout_constraintTop_toBottomOf="@+id/tv_minutos" />
+
+            <TextView
+                android:id="@+id/tv_minutos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Minutos"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/et_nombreReceta"
+                app:layout_constraintTop_toBottomOf="@+id/et_nombreReceta"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/black"
+                android:textColorHint="@color/black"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
