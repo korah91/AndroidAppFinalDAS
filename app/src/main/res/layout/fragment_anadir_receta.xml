@@ -24,43 +24,57 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/comidapordefecto" />
+                tools:src="@drawable/placeholder_comida" />
 
             <EditText
                 android:id="@+id/et_nombreReceta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:ems="10"
                 android:hint="Nombre"
                 android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="@+id/iv_imagenComida"
-                app:layout_constraintTop_toBottomOf="@+id/iv_imagenComida" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_imagenComida"
 
             <EditText
                 android:id="@+id/et_minutos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:ems="10"
                 android:hint="Minutos"
                 android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="@+id/iv_imagenComida"
+                app:layout_constraintStart_toStartOf="@+id/et_nombreReceta"
                 app:layout_constraintTop_toBottomOf="@+id/et_nombreReceta" />
 
             <EditText
                 android:id="@+id/et_ingredientes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:ems="10"
                 android:hint="Ingredientes"
-                android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="@+id/iv_imagenComida"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:overScrollMode="always"
+                android:scrollbars="vertical"
+                android:scrollbarStyle="insideInset"
+                android:scrollHorizontally="false"
+                app:layout_constraintStart_toStartOf="@+id/et_minutos"
                 app:layout_constraintTop_toBottomOf="@+id/et_minutos" />
+
+            <EditText
+                android:id="@+id/et_instrucciones"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:ems="10"
+                android:hint="Instrucciones"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="@+id/et_ingredientes"
+                app:layout_constraintTop_toBottomOf="@+id/et_ingredientes" />
 
             <CheckBox
                 android:id="@+id/checkBox_vegetariano"
@@ -94,13 +108,13 @@
                 android:id="@+id/btn_guardarReceta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginBottom="8dp"
                 android:text="Guardar receta"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_ingredientes" />
+                app:layout_constraintTop_toBottomOf="@+id/et_instrucciones" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
