@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -94,6 +96,7 @@ public class AnadirReceta extends Fragment {
         EditText et_nombreReceta = v.findViewById(R.id.et_nombreReceta);
         EditText et_minutos = v.findViewById(R.id.et_minutos);
         EditText et_ingredientes = v.findViewById(R.id.et_ingredientes);
+        EditText et_instrucciones = v.findViewById(R.id.et_instrucciones);
 
         CheckBox checkBox_vegetariano = v.findViewById(R.id.checkBox_vegetariano);
         CheckBox checkBox_vegano = v.findViewById(R.id.checkBox_vegano);
@@ -103,8 +106,8 @@ public class AnadirReceta extends Fragment {
         // Receta por defecto
         et_nombreReceta.setText("Receta de ejemplo");
         et_minutos.setText("45");
-        et_ingredientes.setText("1. Reúne los ingredientes \n2. Blablabla");
-
+        et_ingredientes.setText("200 ml Leche, 200 gr cacahuetes, una cuchara sopera de aceite");
+        et_instrucciones.setText("1. Reúne los ingredientes \n2. Blablabla");
 
         // Listeners de los checkboxes de vegetariano, vegano y sinGluten
         checkBox_vegano.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +193,7 @@ public class AnadirReceta extends Fragment {
                         @Override
                         public void onFailure(Call call, IOException e) {
                             // Error de conexión o I/O
-                            Toast.makeText(getActivity(), "No se ha podido añadir la receta", Toast.LENGTH_SHORT).show();
+                            ((MainActivity) getActivity()).showToast("No se ha podido añadir la receta");
                             Log.d("anadirReceta", "No ha podido añadir la receta");
                             Log.d("anadirReceta", e.toString());
                         }
@@ -201,9 +204,11 @@ public class AnadirReceta extends Fragment {
                                 if (response.isSuccessful()) {
                                     // Solicitud exitosa
                                     Log.d("anadirReceta", "Se ha añadido la receta. "+ response.body().string());
+                                    ((MainActivity) getActivity()).showToast("Se ha añadido la receta");
+
                                 } else {
                                     // Solicitud fallida
-
+                                    ((MainActivity) getActivity()).showToast("No se ha podido añadir la receta");
                                     Log.d("anadirReceta", "Error al añadir la receta: " + response);
                                 }
                             } catch (Exception e) {
