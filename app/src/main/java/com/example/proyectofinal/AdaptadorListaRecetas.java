@@ -43,6 +43,7 @@ public class AdaptadorListaRecetas extends RecyclerView.Adapter<ListaRecetasView
         holder.num_likes.setSelected(list.get(position).aggregateLikes+ " Likes");
         holder.tiempo_preparacion.setText(list.get(position).time+ " Minutos");
         Picasso.get().load(list.get(position).image.into(holder.imagen_comida))*/
+        Glide.with(context).load(R.drawable.comidapordefecto).into(holder.imagen_comida);
     }
 
     @Override

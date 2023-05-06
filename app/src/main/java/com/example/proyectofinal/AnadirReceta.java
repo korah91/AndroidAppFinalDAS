@@ -105,7 +105,7 @@ public class AnadirReceta extends Fragment {
         Boolean vegetariano, vegano, sinGluten;
 
         // Creo el seekBar de los minutos
-        SeekBar seekBar = v.findViewById(R.id.seekBar_minutos);
+        /*SeekBar seekBar = v.findViewById(R.id.seekBar_minutos);
         seekBar.setMax(60);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -123,7 +123,7 @@ public class AnadirReceta extends Fragment {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
-        });
+        });*/
 
         // Receta por defecto
         et_nombreReceta.setText("Receta de ejemplo");
