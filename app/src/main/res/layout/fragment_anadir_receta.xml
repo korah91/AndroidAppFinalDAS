@@ -35,9 +35,6 @@
                 android:ems="10"
                 android:hint="Nombre"
                 android:inputType="textPersonName"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:backgroundTint="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_imagenComida"/>
 
@@ -49,9 +46,6 @@
                 android:ems="10"
                 android:hint="Minutos"
                 android:inputType="textPersonName"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:backgroundTint="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/et_nombreReceta"
                 app:layout_constraintTop_toBottomOf="@+id/et_nombreReceta" />
 
@@ -68,9 +62,6 @@
                 android:scrollbars="vertical"
                 android:scrollbarStyle="insideInset"
                 android:scrollHorizontally="false"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:backgroundTint="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/et_minutos"
                 app:layout_constraintTop_toBottomOf="@+id/et_minutos" />
 
@@ -82,9 +73,6 @@
                 android:ems="10"
                 android:hint="Instrucciones"
                 android:inputType="textPersonName"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:backgroundTint="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/et_ingredientes"
                 app:layout_constraintTop_toBottomOf="@+id/et_ingredientes" />
 
@@ -95,8 +83,6 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="12dp"
                 android:text="Vegetariano"
-                android:textColor="@color/black"
-                android:buttonTint="@color/cuatro"
                 app:layout_constraintStart_toEndOf="@+id/et_nombreReceta"
                 app:layout_constraintTop_toTopOf="@+id/et_nombreReceta" />
 
@@ -106,8 +92,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Vegano"
-                android:textColor="@color/black"
-                android:buttonTint="@color/cuatro"
                 app:layout_constraintStart_toStartOf="@+id/checkBox_vegetariano"
                 app:layout_constraintTop_toBottomOf="@+id/checkBox_vegetariano" />
 
@@ -117,8 +101,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="SinGluten"
-                android:textColor="@color/black"
-                android:buttonTint="@color/cuatro"
                 app:layout_constraintStart_toStartOf="@+id/checkBox_vegano"
                 app:layout_constraintTop_toBottomOf="@+id/checkBox_vegano" />
 

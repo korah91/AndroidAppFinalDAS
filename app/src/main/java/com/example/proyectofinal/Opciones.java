@@ -90,7 +90,9 @@ public class Opciones extends Fragment {
         ImageView mapas = (ImageView) view.findViewById(R.id.opcion1);
         TextView mapastx = (TextView) view.findViewById(R.id.supermarket);
         ImageView robot = (ImageView) view.findViewById(R.id.opcion2);
+        TextView robottx = (TextView) view.findViewById(R.id.IA);
         ImageView random = (ImageView) view.findViewById(R.id.opcion3);
+        TextView randomtx = (TextView) view.findViewById(R.id.ruleta);
         //Abre la pantalla de mapas al pulsar la imagen del carrito de la compra
         mapas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,15 +105,27 @@ public class Opciones extends Fragment {
             @Override
             public void onClick(View view) { mapas();}
         });
+        //Se activa el dialogo de recetas al pulsar la imagen del robot
         robot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 activarDialogTipoRecetas();
             }
         });
+        //Se activa el dialogo de recetas al pulsar las letras de recetas
+        robottx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { activarDialogTipoRecetas(); }
+        });
+        //Abre la pantalla de la ruleta al pulsar la imagen de la interrogacion
         random.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {recetaRandom();}
+            public void onClick(View v) { recetaRandom();}
+        });
+        //Abre la pantalla de la ruleta al pulsar las letras de recetas aleatorias
+        randomtx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { recetaRandom(); }
         });
 
         return view;
