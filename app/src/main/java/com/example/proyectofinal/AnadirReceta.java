@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -103,11 +104,34 @@ public class AnadirReceta extends Fragment {
         CheckBox checkBox_sinGluten = v.findViewById(R.id.checkBox_sinGluten);
         Boolean vegetariano, vegano, sinGluten;
 
+        // Creo el seekBar de los minutos
+        SeekBar seekBar = v.findViewById(R.id.seekBar_minutos);
+        seekBar.setMax(60);
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged (SeekBar seekBar, int progress, boolean fromUser) {
+                int hours = progress / 4; // it will return hours.
+                int minutes = (progress % 4) * 15; // here will be minutes.
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         // Receta por defecto
         et_nombreReceta.setText("Receta de ejemplo");
-        et_minutos.setText("45");
         et_ingredientes.setText("200 ml Leche, 200 gr cacahuetes, una cuchara sopera de aceite");
         et_instrucciones.setText("1. Reúne los ingredientes \n2. Blablabla");
+
+
+
 
         // Listeners de los checkboxes de vegetariano, vegano y sinGluten
         checkBox_vegano.setOnClickListener(new View.OnClickListener() {
