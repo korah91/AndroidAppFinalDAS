@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -87,13 +88,20 @@ public class Opciones extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_opciones, container, false);
         ImageView mapas = (ImageView) view.findViewById(R.id.opcion1);
+        TextView mapastx = (TextView) view.findViewById(R.id.supermarket);
         ImageView robot = (ImageView) view.findViewById(R.id.opcion2);
         ImageView random = (ImageView) view.findViewById(R.id.opcion3);
+        //Abre la pantalla de mapas al pulsar la imagen del carrito de la compra
         mapas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mapas();
             }
+        });
+        //Abre la pantalla de mapas al pulsar las letras de supermercados
+        mapastx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { mapas();}
         });
         robot.setOnClickListener(new View.OnClickListener() {
             @Override

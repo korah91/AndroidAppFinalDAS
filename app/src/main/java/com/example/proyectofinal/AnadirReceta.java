@@ -41,7 +41,7 @@ import com.squareup.picasso.Picasso;
  */
 public class AnadirReceta extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
+    // TODO: Rename parameter arguments, choose names that matcc
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
