@@ -3,6 +3,8 @@ package com.example.proyectofinal;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,9 @@ public class Comunidad extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private AdaptadorListaRecetas adaptadorListaRecetas;
+    private RecyclerView recyclerView;
 
     public Comunidad() {
         // Required empty public constructor
@@ -58,7 +63,16 @@ public class Comunidad extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_comunidad, container, false);
+
+        recyclerView = view.findViewById(R.id.rv_recetas_comunidad);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        adaptadorListaRecetas = new AdaptadorListaRecetas(getActivity()); //Aqui se le pasaria una lista con las recetas tambien
+        recyclerView.setAdapter(adaptadorListaRecetas);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_comunidad, container, false);
+        return view;
     }
 }
