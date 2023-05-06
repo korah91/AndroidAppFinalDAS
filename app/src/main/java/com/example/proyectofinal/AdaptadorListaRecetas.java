@@ -11,13 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class AdaptadorListaRecetas extends RecyclerView.Adapter<ListaRecetasViewHolder> {
 
     Context context;
     //List<Recipe> list;
-    String listaTit[] = {"macarrones", "lenetejas"};
+    String listaTit[] = {"macarrones", "lentejas"};
 
     public AdaptadorListaRecetas(Context context) {
         this.context = context;
