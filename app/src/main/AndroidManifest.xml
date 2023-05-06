@@ -18,6 +18,9 @@
             android:name=".Mapas"
             android:exported="false" />
         <activity
+            android:name=".RecetaRandom"
+            android:exported="false"/>
+        <activity
             android:name=".RegistroActivity"
             android:exported="false" />
         <activity
