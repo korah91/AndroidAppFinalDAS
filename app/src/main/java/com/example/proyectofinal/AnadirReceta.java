@@ -1,22 +1,31 @@
 package com.example.proyectofinal;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -33,6 +42,11 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -46,6 +60,9 @@ public class AnadirReceta extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private Uri imageUri;
+    private ImageView iv_imagenComida;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -90,12 +107,12 @@ public class AnadirReceta extends Fragment {
 
         Context context = getContext();
 
-        ImageView iv_imagenComida = v.findViewById(R.id.iv_imagenComida);
+        iv_imagenComida = v.findViewById(R.id.iv_imagenComida);
         //Picasso.get().load(R.drawable.comidapordefecto).into(iv_imagenComida);
         Glide.with(v).load(R.drawable.comidapordefecto).into(iv_imagenComida);
 
         EditText et_nombreReceta = v.findViewById(R.id.et_nombreReceta);
-        EditText et_minutos = v.findViewById(R.id.et_minutos);
+
         EditText et_ingredientes = v.findViewById(R.id.et_ingredientes);
         EditText et_instrucciones = v.findViewById(R.id.et_instrucciones);
 
@@ -103,15 +120,15 @@ public class AnadirReceta extends Fragment {
         CheckBox checkBox_vegano = v.findViewById(R.id.checkBox_vegano);
         CheckBox checkBox_sinGluten = v.findViewById(R.id.checkBox_sinGluten);
         Boolean vegetariano, vegano, sinGluten;
+        TextView tv_minutos = v.findViewById(R.id.tv_minutos);
 
         // Creo el seekBar de los minutos
-        /*SeekBar seekBar = v.findViewById(R.id.seekBar_minutos);
+        SeekBar seekBar = v.findViewById(R.id.seekBar_minutos);
         seekBar.setMax(60);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged (SeekBar seekBar, int progress, boolean fromUser) {
-                int hours = progress / 4; // it will return hours.
-                int minutes = (progress % 4) * 15; // here will be minutes.
+                tv_minutos.setText("Minutos: " + String.valueOf(progress));
             }
 
             @Override
@@ -123,12 +140,53 @@ public class AnadirReceta extends Fragment {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
-        });*/
+        });
 
         // Receta por defecto
         et_nombreReceta.setText("Receta de ejemplo");
         et_ingredientes.setText("200 ml Leche, 200 gr cacahuetes, una cuchara sopera de aceite");
         et_instrucciones.setText("1. Reúne los ingredientes \n2. Blablabla");
+
+
+        // Listener de la imagen, cuando se le da click se abre la camara
+        iv_imagenComida.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // Inicializamos Firebase
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+
+                // Abrimos la camara
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 1);
+
+                if (imageUri != null) {
+                    StorageReference fileReference = storageReference.child(System.currentTimeMillis()
+                            + "." + getFileExtension(imageUri));
+                    fileReference.putFile(imageUri)
+                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    Toast.makeText(getActivity(), "Upload successful", Toast.LENGTH_SHORT).show();
+                                    Log.d("imagen", "Se ha subido la imagen");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getActivity(), "Upload failed", Toast.LENGTH_SHORT).show();
+                                    Log.d("imagen", "FALLO NO SE ha subido la imagen");
+                                }
+                            });
+                } else {
+                    Toast.makeText(getActivity(), "No image selected", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+
+
 
 
 
@@ -148,12 +206,13 @@ public class AnadirReceta extends Fragment {
         btn_guardarReceta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                int progress = seekBar.getProgress(); // get the current progress of the SeekBar
                 // Compruebo que no estan vacios los input
                 if(TextUtils.isEmpty(et_nombreReceta.getText().toString())){
                     Toast.makeText(getContext(), "Introduce el nombre", Toast.LENGTH_SHORT).show();
                 }
-                else if(TextUtils.isEmpty(et_minutos.getText().toString())){
+                // Compruebo los minutos
+                else if(progress == 0){
                     Toast.makeText(getContext(), "Introduce los minutos", Toast.LENGTH_SHORT).show();
                 }
                 else if(TextUtils.isEmpty(et_ingredientes.getText().toString())){
@@ -164,7 +223,7 @@ public class AnadirReceta extends Fragment {
                 else{
                     // Leo los valores introducidos
                     String nombreReceta = et_nombreReceta.getText().toString();
-                    int minutos = Integer.parseInt(et_minutos.getText().toString());
+                    int minutos = seekBar.getProgress();
 
                     String ingredientes = et_ingredientes.getText().toString();
 
@@ -248,4 +307,23 @@ public class AnadirReceta extends Fragment {
 
         return v;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            iv_imagenComida.setImageURI(imageUri);
+        }
+    }
+
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver contentResolver = getActivity().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+
 }
