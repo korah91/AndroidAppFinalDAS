@@ -2,15 +2,28 @@ package com.example.proyectofinal;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
@@ -23,6 +36,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -31,7 +45,10 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -42,8 +59,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -60,8 +79,17 @@ public class AnadirReceta extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final int CAMERA_PERM_CODE = 101;
+    public static final int CAMERA_REQUEST_CODE = 102;
+
     private Uri imageUri;
-    private ImageView iv_imagenComida;
+    private ImageButton iv_imagenComida;
+    StorageReference storageReference;
+    String currentPhotoPath;
+    String urlFirebase;
+
+
+
 
 
     // TODO: Rename and change types of parameters
@@ -154,41 +182,11 @@ public class AnadirReceta extends Fragment {
             @Override
             public void onClick(View v) {
                 // Inicializamos Firebase
-                StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-
-                // Abrimos la camara
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 1);
-
-                if (imageUri != null) {
-                    StorageReference fileReference = storageReference.child(System.currentTimeMillis()
-                            + "." + getFileExtension(imageUri));
-                    fileReference.putFile(imageUri)
-                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    Toast.makeText(getActivity(), "Upload successful", Toast.LENGTH_SHORT).show();
-                                    Log.d("imagen", "Se ha subido la imagen");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getActivity(), "Upload failed", Toast.LENGTH_SHORT).show();
-                                    Log.d("imagen", "FALLO NO SE ha subido la imagen");
-                                }
-                            });
-                } else {
-                    Toast.makeText(getActivity(), "No image selected", Toast.LENGTH_SHORT).show();
-                }
+                storageReference = FirebaseStorage.getInstance().getReference();
+                Log.d("imagen", "Se ha pulsado la imagen");
+                askCameraPermissions();
             }
         });
-
-
-
-
-
-
 
 
         // Listeners de los checkboxes de vegetariano, vegano y sinGluten
@@ -256,6 +254,7 @@ public class AnadirReceta extends Fragment {
                         json.put("vegetariano", estadoVegetariano ? 1 : 0); //Si es true mando 1, si false mando 0
                         json.put("vegano", estadoVegano ? 1 : 0);
                         json.put("sinGluten", estadoSinGluten ? 1 : 0);
+                        json.put("urlFoto", urlFirebase);
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
@@ -308,22 +307,122 @@ public class AnadirReceta extends Fragment {
         return v;
     }
 
+    // Cuando se recibe la imagen desde la camara
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            if(resultCode == Activity.RESULT_OK){
+                File f = new File(currentPhotoPath);
+                //iv_imagen.setImageURI(Uri.fromFile(f));
+                Log.d("imagen", "URL Absoluta de la imagen: " + Uri.fromFile(f));
 
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            imageUri = data.getData();
-            iv_imagenComida.setImageURI(imageUri);
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                // contentUri contiene la direccion en el movil de la foto
+                Uri contentUri = Uri.fromFile(f);
+
+                // Guardamos la url en la variable global para guardarla en el objeto como url de la imagen
+                urlFirebase = contentUri.toString();
+
+                mediaScanIntent.setData(contentUri);
+                getActivity().sendBroadcast(mediaScanIntent);
+
+                uploadImageToFirebase(f.getName(), contentUri);
+            }
         }
     }
 
 
-    private String getFileExtension(Uri uri) {
-        ContentResolver contentResolver = getActivity().getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(contentResolver.getType(uri));
+    // Sube la imagen a Firebase
+    private void uploadImageToFirebase(String name, Uri contentUri) {
+        // Crea el directorio
+        StorageReference image = storageReference.child("images/" + name);
+        // El onSuccessListener se activa cuando se sube la imagen satisfactoriamente
+        image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // Obtengo el url de descarga de la imagen
+                image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.d("firebase", "onSuccess: Uploaded IMG Url: " + uri.toString());
+                        // Cargo la imagen en el imageView con Glide
+                        Glide.with(getContext()).load(uri).into(iv_imagenComida);
+                        urlFirebase = uri.toString();
+
+
+                    }
+                });
+                Toast.makeText(getContext(), "Firebase upload SUCCEED", Toast.LENGTH_SHORT).show();
+            }
+            // El onFailureListener se activa cuando falla
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Firebase upload failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    // Referencia del Código: "SmallAcademy" de Youtube.
+    // https://www.youtube.com/watch?v=dKX2V992pWI&list=PLlGT4GXi8_8eopz0Gjkh40GG6O5KhL1V1&index=4
+    private void askCameraPermissions(){
+        // Si no hay permisos de CAMARA y ALMACENAMIENTO, se piden
+        if(ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(getActivity(), new String[] {android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_PERM_CODE);
+        }
+        else{
+            dispatchTakePictureIntent();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == CAMERA_PERM_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                dispatchTakePictureIntent();
+            } else {
+                Toast.makeText(getContext(), "Se necesita permiso para acceder a la camara", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
+    private File createImageFile() throws IOException {
+        // Se crea la imagen con un TimeStamp
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        //File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
 
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(getContext(),
+                        "com.example.android.ProyectoFinal.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
+            }
+        }
+    }
 }
