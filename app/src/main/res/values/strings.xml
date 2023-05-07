@@ -16,4 +16,11 @@
     <string name="btn_spin">Iniciar</string>
     <string name="btn_mercadona">Mercadona</string>
     <string name="btn_eroski">Eroski</string>
+
+    <string-array name="tags">
+        <item>Todas las recetas</item>
+        <item>Receta vegetariana</item>
+        <item>Receta vegana</item>
+        <item>Receta sin glúten</item>
+    </string-array>
 </resources>

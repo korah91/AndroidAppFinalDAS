@@ -1,5 +1,6 @@
 package com.example.proyectofinal;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,10 +71,20 @@ public class Comunidad extends Fragment {
         recyclerView = view.findViewById(R.id.rv_recetas_comunidad);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        adaptadorListaRecetas = new AdaptadorListaRecetas(getActivity()); //Aqui se le pasaria una lista con las recetas tambien
+        adaptadorListaRecetas = new AdaptadorListaRecetas(getActivity(), recetaClickListener); //Aqui se le pasaria una lista con las recetas tambien
         recyclerView.setAdapter(adaptadorListaRecetas);
 
         // Inflate the layout for this fragment
         return view;
     }
+
+    private final RecetaClickListener recetaClickListener = new RecetaClickListener() {
+        @Override
+        public void onRecetaClicked(String usuario, String titulo) {
+            //De aqui se abriria con un Intent la clase que mostraría los detalles de la receta
+            Toast.makeText(getContext(), "El usuario es --> " + usuario + "\nLa receta es --> " + titulo, Toast.LENGTH_SHORT).show();
+            //Intent i = new Intent(getContext(), DetallesRecetas.class);
+            //startActivity(i);
+        }
+    };
 }
