@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void invitado(View view){
         Intent inicio = new Intent(LoginActivity.this, MainActivity.class);
-        inicio.putExtra("user", "invitado");
+        inicio.putExtra("user", user);
         startActivity(inicio);
     }
 }

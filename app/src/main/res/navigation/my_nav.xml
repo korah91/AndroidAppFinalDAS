@@ -10,11 +10,17 @@
         android:name="com.example.proyectofinal.Comunidad"
         android:label="fragment_recetas_local"
         tools:layout="@layout/fragment_comunidad" />
+
     <fragment
         android:id="@+id/perfil"
         android:name="com.example.proyectofinal.Perfil"
         android:label="fragment_perfil"
-        tools:layout="@layout/fragment_perfil" />
+        tools:layout="@layout/fragment_perfil">
+        <argument
+            android:name="usuario"
+            app:argType="string" />
+    </fragment>
+
     <fragment
         android:id="@+id/opciones"
         android:name="com.example.proyectofinal.Opciones"

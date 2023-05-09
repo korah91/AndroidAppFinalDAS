@@ -2,8 +2,11 @@ package com.example.proyectofinal;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,15 +40,16 @@ public class Perfil extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * //@param param2 Parameter 2.
      * @return A new instance of fragment perfil.
      */
     // TODO: Rename and change types and number of parameters
-    public static Perfil newInstance(String param1, String param2) {
+    public static Perfil newInstance(String param1) { //(String param1, String param2)
         Perfil fragment = new Perfil();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        //args.putString(ARG_PARAM2, param2);
+        //args.putString("usuario", param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,10 +57,14 @@ public class Perfil extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        getParentFragmentManager().setFragmentResultListener("user", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+                // We use a String here, but any type that can be put in a Bundle is supported
+                String result = bundle.getString("usuario");
+                Log.d("Prueba onCreate", "user: " + result);
+            }
+        });
     }
 
     @Override
@@ -66,8 +74,23 @@ public class Perfil extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_perfil, container, false);
         usuario = (TextView) view.findViewById(R.id.usuario);
         opciones = (TextView) view.findViewById(R.id.preferencias);
-        usuario.setText(""); //Utilizar variable que venga de MainActivity
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("Prueba onStart", "Pasa por onStart ");
+        getParentFragmentManager().setFragmentResultListener("user", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+                // We use a String here, but any type that can be put in a Bundle is supported
+                String result = bundle.getString("usuario");
+                Log.d("Prueba onStart", "user: " + result);
+                usuario.setText(result);
+            }
+        });
+        Log.d("Prueba onStart", "Pasa por onStart ");
     }
 }
