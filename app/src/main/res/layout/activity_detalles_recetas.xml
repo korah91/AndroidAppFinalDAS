@@ -4,6 +4,115 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/uno"
     tools:context=".DetallesRecetas">
+
+    <ImageView
+        android:id="@+id/iv_vegetariana"
+        android:layout_width="22dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="160dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_tiempo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_imgComida"
+        app:srcCompat="@drawable/vegetarian_icon" />
+
+    <ImageView
+        android:id="@+id/iv_vegana"
+        android:layout_width="22dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="29dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_tiempo"
+        app:layout_constraintEnd_toStartOf="@+id/iv_gluten"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_imgComida"
+        app:srcCompat="@drawable/vegan_icon" />
+
+    <ImageView
+        android:id="@+id/iv_imgComida"
+        android:layout_width="282dp"
+        android:layout_height="197dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="65dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tituloReceta"
+        app:srcCompat="@drawable/placeholder_comida" />
+
+    <TextView
+        android:id="@+id/tv_tituloReceta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="100dp"
+        android:text="Nombre de la receta"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/iv_imgComida"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_tiempo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="150dp"
+        android:layout_marginBottom="18dp"
+        android:text="Tiempo de preparación : 40 minutos"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/tv_ingredientes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.354"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_ingredientes"
+        android:layout_width="354dp"
+        android:layout_height="105dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="16dp"
+        android:text="Ingredientes :
+\n\n- 1 Huevo
+\n- 2 manzanas
+\n- 3 cucharadas de azucar"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/tv_pasos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_pasos"
+        android:layout_width="370dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="63dp"
+        android:text="Pasos a seguir : aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_gluten"
+        android:layout_width="22dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="26dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_tiempo"
+        app:layout_constraintEnd_toStartOf="@+id/iv_vegetariana"
+        app:layout_constraintTop_toBottomOf="@+id/iv_imgComida"
+        app:srcCompat="@drawable/trigo" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

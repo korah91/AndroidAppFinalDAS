@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/uno">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/iv_imagenComida"
+                android:layout_width="286dp"
+                android:layout_height="221dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/black"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/placeholder_comida" />
+
+            <EditText
+                android:id="@+id/et_nombreReceta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="56dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/black"
+                android:ems="10"
+                android:hint="Nombre"
+                android:inputType="textPersonName"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_imagenComida" />
+
+            <SeekBar
+                android:id="@+id/seekBar_minutos"
+                android:layout_width="207dp"
+                android:layout_height="22dp"
+
+                android:layout_marginEnd="260dp"
+                android:layout_marginBottom="44dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_nombreReceta" />
+
+            <TextView
+                android:id="@+id/tv_minutos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="93dp"
+                android:layout_marginBottom="46dp"
+                android:backgroundTint="@color/black"
+                android:text="Minutos"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/seekBar_minutos"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_nombreReceta"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <CheckBox
+                android:id="@+id/checkBox_vegetariano"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="27dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/cuatro"
+                android:text="Vegetariano"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toStartOf="@+id/checkBox_vegano"
+                app:layout_constraintStart_toEndOf="@+id/iv_imagenComida"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/checkBox_vegano"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="27dp"
+                android:layout_marginEnd="19dp"
+                android:backgroundTint="@color/black"
+                android:text="Vegano"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                app:layout_constraintEnd_toStartOf="@+id/checkBox_sinGluten"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/checkBox_sinGluten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="27dp"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/black"
+                android:text="SinGluten"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_ingredientes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/black"
+                android:ems="10"
+                android:gravity="top"
+                android:hint="Ingredientes"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.085"
+                app:layout_constraintStart_toEndOf="@+id/iv_imagenComida"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox_vegetariano" />
+
+            <EditText
+                android:id="@+id/et_instrucciones"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/black"
+                android:ems="10"
+                android:hint="Instrucciones"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/et_ingredientes"
+                app:layout_constraintTop_toBottomOf="@+id/et_ingredientes" />
+
+            <Button
+                android:id="@+id/btn_guardarReceta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="37dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="76dp"
+                android:text="Guardar receta"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_instrucciones"
+                app:layout_constraintVertical_bias="1.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</FrameLayout>

@@ -83,8 +83,8 @@ public class Comunidad extends Fragment {
         public void onRecetaClicked(String usuario, String titulo) {
             //De aqui se abriria con un Intent la clase que mostraría los detalles de la receta
             Toast.makeText(getContext(), "El usuario es --> " + usuario + "\nLa receta es --> " + titulo, Toast.LENGTH_SHORT).show();
-            //Intent i = new Intent(getContext(), DetallesRecetas.class);
-            //startActivity(i);
+            Intent i = new Intent(getContext(), DetallesRecetas.class);
+            startActivity(i);
         }
     };
 }
