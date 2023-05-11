@@ -66,8 +66,8 @@ public class LoginActivity extends AppCompatActivity {
                                 fichero.close();
                             } catch (IOException e){e.printStackTrace();}
 
-
                             startActivity(inicio);
+                            finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "Tu usuario o contraseña son incorrectos", Toast.LENGTH_LONG).show();
                         }
@@ -89,5 +89,6 @@ public class LoginActivity extends AppCompatActivity {
         } catch (IOException e){e.printStackTrace();}
 
         startActivity(inicio);
+        finish();
     }
 }

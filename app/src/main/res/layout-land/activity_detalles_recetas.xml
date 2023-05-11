@@ -115,6 +115,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_tituloReceta"
+        app:srcCompat="@drawable/baseline_access_time_filled_24"
         tools:srcCompat="@drawable/baseline_access_time_filled_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

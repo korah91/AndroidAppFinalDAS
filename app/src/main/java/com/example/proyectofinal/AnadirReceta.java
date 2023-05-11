@@ -45,8 +45,10 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -203,6 +205,8 @@ public class AnadirReceta extends Fragment {
         btn_guardarReceta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String user = obtenerUsuario();
+
                 int progress = seekBar.getProgress(); // get the current progress of the SeekBar
                 // Compruebo que no estan vacios los input
                 if(TextUtils.isEmpty(et_nombreReceta.getText().toString())){
@@ -217,6 +221,9 @@ public class AnadirReceta extends Fragment {
                 }
                 else if (TextUtils.isEmpty(et_instrucciones.getText().toString())){
                     Toast.makeText(getContext(), "Introduce las instrucciones", Toast.LENGTH_SHORT).show();
+                }
+                else if (user.equals("-1")){
+                    Toast.makeText(getContext(), "Solo puedes subir recetas si has iniciado sesión", Toast.LENGTH_SHORT).show();
                 }
                 // Si esta todo lo necesario se realiza la conexion
 
@@ -250,6 +257,7 @@ public class AnadirReceta extends Fragment {
                     // Crear un objeto JSON con los campos correspondientes
                     JSONObject json = new JSONObject();
                     try {
+                        json.put("usuario", user);
                         json.put("nombreReceta", nombreReceta);
                         json.put("minutos", minutos);
                         json.put("ingredientes", ingredientes);
@@ -431,5 +439,19 @@ public class AnadirReceta extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("imagen", currentPhotoPath);
+    }
+
+    private String obtenerUsuario(){
+        String user = "";
+        try {
+            BufferedReader ficherointerno = new BufferedReader(new InputStreamReader(
+                    getActivity().openFileInput("sesion.txt")));
+            String linea = ficherointerno.readLine();
+            ficherointerno.close();
+            user = linea;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }

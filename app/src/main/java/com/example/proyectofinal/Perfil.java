@@ -1,25 +1,22 @@
 package com.example.proyectofinal;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,8 +34,8 @@ public class Perfil extends Fragment {
     private String mParam1;
     private String mParam2;
     private TextView usuario;
-    private TextView opciones;
     private String result;
+    private Button bt_verRecetas, bt_editarDatos, bt_logOut;
 
     public Perfil() {
         // Required empty public constructor
@@ -76,20 +73,43 @@ public class Perfil extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_perfil, container, false);
-        usuario = (TextView) view.findViewById(R.id.textView);
+        usuario = (TextView) view.findViewById(R.id.tv_usuario);
+        bt_editarDatos = (Button) view.findViewById(R.id.button_editar);
+        bt_logOut = (Button) view.findViewById(R.id.button_logout);
+        bt_verRecetas = (Button) view.findViewById(R.id.button_ver_recetas);
+
         //Leer usuario del fichero
         try {
             BufferedReader ficherointerno = new BufferedReader(new InputStreamReader(
                     getActivity().openFileInput("sesion.txt")));
             String linea = ficherointerno.readLine();
             ficherointerno.close();
-            usuario.setText(linea);
+
+            //Comprobamos si es un usuario validado o es invitado
+            if (!linea.equals("-1")){
+                usuario.setText("Bienvenido " + linea.toUpperCase());
+            }
+            else {
+                usuario.setText("INVITADO");
+                bt_verRecetas.setVisibility(View.INVISIBLE);
+                bt_logOut.setText("Iniciar Sesión");
+                bt_editarDatos.setVisibility(View.INVISIBLE);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
+        //Redirige a la pantalla de inicio sesión
+        bt_logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                startActivity(i);
+                getActivity().finishAffinity();
+            }
+        });
 
         return view;
     }
+
 }
