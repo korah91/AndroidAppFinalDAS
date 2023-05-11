@@ -1,9 +1,12 @@
 package com.example.proyectofinal;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -34,6 +41,9 @@ public class Comunidad extends Fragment {
 
     private AdaptadorListaRecetas adaptadorListaRecetas;
     private RecyclerView recyclerView;
+    private Spinner spinner;
+    private boolean initialDisplay = true;
+
 
     public Comunidad() {
         // Required empty public constructor
@@ -84,6 +94,11 @@ public class Comunidad extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
+        //Configuro el filtro
+        spinner = (Spinner) view.findViewById(R.id.spinner_tags);
+        spinner.setOnItemSelectedListener(new SpinnerListener());
+
+
         // Aqui le paso la lista con las recetas
         adaptadorListaRecetas = new AdaptadorListaRecetas(getActivity(), recetaClickListener, listaRecetas); //Aqui se le pasaria una lista con las recetas tambien
         recyclerView.setAdapter(adaptadorListaRecetas);
@@ -113,4 +128,32 @@ public class Comunidad extends Fragment {
             startActivity(i);
         }
     };
+
+    private class SpinnerListener implements AdapterView.OnItemSelectedListener {
+        @Override
+        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            if (initialDisplay) {
+                initialDisplay = false;
+            } else {
+                DBRecetas dbRecetas = new DBRecetas(getContext());
+                ArrayList<Receta> listaRecetas = dbRecetas.getRecetasGlobales(false, false, false);
+                Log.d("Posicion", "Pos --> " + position);
+                //Filtrar la lista de recetas según la seleccion del spinner
+                ArrayList<Receta> filtrada = adaptadorListaRecetas.getFilteredList(listaRecetas, position);
+                adaptadorListaRecetas = new AdaptadorListaRecetas(getActivity(), recetaClickListener, filtrada);
+                recyclerView.setAdapter(adaptadorListaRecetas);
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parentView) {
+            // Implementar aquí cualquier acción que se desee realizar cuando no se selecciona ningún elemento en el Spinner
+        }
+    }
+
+
 }
+
+
+
+

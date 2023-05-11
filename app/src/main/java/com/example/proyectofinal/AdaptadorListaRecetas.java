@@ -78,6 +78,37 @@ public class AdaptadorListaRecetas extends RecyclerView.Adapter<ListaRecetasView
     public int getItemCount() {
         return listaRecetas.size();
     }
+
+    public ArrayList<Receta> getFilteredList(ArrayList<Receta> recetas, int position) {
+        ArrayList<Receta> filteredList = new ArrayList<>();
+        Log.d("Posicion", "Pos en adapter --> " + position);
+        listaRecetas = recetas;
+        for (Receta receta : listaRecetas) {
+            switch (position) {
+                case 1:
+                    if (receta.isVegetariano()){
+                        filteredList.add(receta);
+                    }
+                    break;
+                case 2:
+                    if (receta.isVegano()){
+                        filteredList.add(receta);
+                    }
+                    break;
+                case 3:
+                    if (receta.isSinGluten()) {
+                        filteredList.add(receta);
+                    }
+                    break;
+                case 0:
+                        filteredList.add(receta);
+                    break;
+            }
+        }
+        Log.d("Posicion", "La lista es  --> "+ filteredList);
+        return filteredList;
+    }
+
 }
 
 // El ViewHolder controla cada vista
