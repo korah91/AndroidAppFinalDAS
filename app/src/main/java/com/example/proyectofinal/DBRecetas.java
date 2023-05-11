@@ -62,6 +62,7 @@ public class DBRecetas {
 
         // Mientras que no se descarguen las recetas no devuelve
         while (!booleanDevolver){
+            booleanDevolver = true;
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
                 @Override
@@ -80,8 +81,8 @@ public class DBRecetas {
                             String datos = response.body().string();
                             //Log.d("getRecetasGlobales", "Exito:"+datos);
 
-
                             JSONArray jsonArray = new JSONArray(datos);
+                            Log.d("marcos", "LENGTH:" + jsonArray.length());
                             // Se itera sobre el JSON
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -104,39 +105,26 @@ public class DBRecetas {
                                 Receta r = new Receta(idReceta, usuario, nombre, tiempo, ingredientes, instrucciones, vegetariano, vegano, sinGluten, urlFoto);
                                 // Se guarda en el arrayList
                                 addToListaRecetas(r);
-                                booleanDevolver = true;
                             }
-
-
-
                             //Log.d("getRecetasGlobales", "arrayList: "+getListaRecetas());
 
                         } else {
                             Log.d("getRecetasGlobales", "No se han podido conseguir las Recetas Globales");
                             Log.d("getRecetasGlobales", response.toString());
                         }
-
-                    response.close();
-                } catch (JSONException e) {
+                        response.close();
+                    } catch (JSONException e) {
                         Log.d("viewholder", "Ha habido excepcion" + e.toString());
                         throw new RuntimeException(e);
-
                     }
                 }
             });
         }
-
-        //Log.d("viewholder", "Desde DBRecetas: " + listaRecetas);
-        // Si hay algun error con la peticion la lista deberia estar vacia
-
-
         return getListaRecetas();
     }
 
-
     public void addToListaRecetas(Receta r){
         listaRecetas.add(r);
-
     }
 
     public ArrayList<Receta> getListaRecetas(){
