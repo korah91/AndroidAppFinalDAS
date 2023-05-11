@@ -79,7 +79,6 @@ public class DBRecetas {
                             // Solicitud exitosa
                             // Se crea el array JSON con TODAS las recetas
                             String datos = response.body().string();
-                            //Log.d("getRecetasGlobales", "Exito:"+datos);
 
                             JSONArray jsonArray = new JSONArray(datos);
                             Log.d("marcos", "LENGTH:" + jsonArray.length());
@@ -106,7 +105,6 @@ public class DBRecetas {
                                 // Se guarda en el arrayList
                                 addToListaRecetas(r);
                             }
-                            //Log.d("getRecetasGlobales", "arrayList: "+getListaRecetas());
 
                         } else {
                             Log.d("getRecetasGlobales", "No se han podido conseguir las Recetas Globales");
