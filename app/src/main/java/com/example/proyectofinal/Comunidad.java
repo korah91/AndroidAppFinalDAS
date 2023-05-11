@@ -75,7 +75,7 @@ public class Comunidad extends Fragment {
         DBRecetas dbRecetas = new DBRecetas(this.getContext());
         // Las cargo en un arrayList
         ArrayList<Receta> listaRecetas = dbRecetas.getRecetasGlobales(false,false,false);
-        Log.d("viewholder", ":"+listaRecetas);
+        //Log.d("viewholder", "Comunidad:"+listaRecetas);
 
         // Configuro el recyclerView
         recyclerView = view.findViewById(R.id.rv_recetas_comunidad);

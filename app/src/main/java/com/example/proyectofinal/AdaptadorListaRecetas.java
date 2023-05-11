@@ -60,13 +60,8 @@ public class AdaptadorListaRecetas extends RecyclerView.Adapter<ListaRecetasView
         holder.titulo.setSelected(true);
         holder.tiempo_preparacion.setText("" + listaRecetas.get(position).getTiempo());
         holder.usuario_receta.setText("" + listaRecetas.get(position).getUsuario());
-       /* holder.titulo.setText(list.get(position).title);
-        holder.titulo.setSelected(true);
-        holder.num_likes.setSelected(list.get(position).aggregateLikes+ " Likes");
-        holder.tiempo_preparacion.setText(list.get(position).time+ " Minutos");
-        holder.usuario_receta.setText(list.get(position).usuario);
-        Picasso.get().load(list.get(position).image.into(holder.imagen_comida))*/
-        Glide.with(context).load(listaRecetas.get(position).getUrlFoto()).into(holder.imagen_comida);
+
+        //Glide.with(context).load(listaRecetas.get(position).getUrlFoto()).into(holder.imagen_comida);
 
         // Se ejecuta cuando se da click a un elemento
         holder.recetas_lay.setOnClickListener(new View.OnClickListener() {

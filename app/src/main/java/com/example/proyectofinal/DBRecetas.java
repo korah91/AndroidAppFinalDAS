@@ -24,9 +24,11 @@ public class DBRecetas {
 
     Context context;
     final ArrayList<Receta> listaRecetas;
+    boolean booleanDevolver = false;
 
     public DBRecetas(@Nullable Context context) {
         super();
+
         this.context = context;
         // Se crea el arrayList a devolver
         this.listaRecetas = new ArrayList<Receta>();
@@ -58,75 +60,82 @@ public class DBRecetas {
                 .post(body)
                 .build();
 
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                // Error de conexión o I/O
-                Log.d("getRecetasGlobales", "No se han podido conseguir las Recetas Globales");
-                Log.d("getRecetasGlobales", e.toString());
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    if (response.isSuccessful()) {
-                        // Solicitud exitosa
-                        // Se crea el array JSON con TODAS las recetas
-                        String datos = response.body().string();
-                        //Log.d("getRecetasGlobales", "Exito:"+datos);
-
-
-                        JSONArray jsonArray = new JSONArray(datos);
-                        // Se itera sobre el JSON
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            // Se obtiene la informacion de la receta para luego guardarla en ArrayList
-                            int idReceta = jsonObject.getInt("idReceta");
-                            String nombre = jsonObject.getString("nombre");
-                            String urlFoto = jsonObject.getString("urlFoto");
-
-                            // Si son == 1 creamos la receta con esos valores como true, si no pues false
-                            boolean vegetariano = jsonObject.getInt("vegetariano") == 1;
-                            boolean vegano = jsonObject.getInt("vegano") == 1;
-                            boolean sinGluten = jsonObject.getInt("sinGluten") == 1;
-
-                            String ingredientes = jsonObject.getString("ingredientes");
-                            String instrucciones = jsonObject.getString("instrucciones");
-                            int tiempo = jsonObject.getInt("tiempo");
-                            String usuario = jsonObject.getString("usuario");
-
-                            // Se crea el objeto Receta
-                            Receta r = new Receta(idReceta, usuario, nombre, tiempo, ingredientes, instrucciones, vegetariano, vegano, sinGluten, urlFoto);
-                            // Se guarda en el arrayList
-                            addToListaRecetas(r);
-                        }
-                        Log.d("getRecetasGlobales", "arrayList: "+getListaRecetas());
-
-                    } else {
-                        Log.d("getRecetasGlobales", "No se han podido conseguir las Recetas Globales");
-                        Log.d("getRecetasGlobales", response.toString());
-                    }
-
-                response.close();
-            } catch (JSONException e) {
-                    Log.d("viewholder", "Ha habido excepcion" + e.toString());
-
-                    throw new RuntimeException(e);
-
+        // Mientras que no se descarguen las recetas no devuelve
+        while (!booleanDevolver){
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    // Error de conexión o I/O
+                    Log.d("getRecetasGlobales", "No se han podido conseguir las Recetas Globales");
+                    Log.d("getRecetasGlobales", e.toString());
                 }
-            }
-        });
 
-        Log.d("viewholder", "Desde DBRecetas: " + listaRecetas);
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    try {
+                        if (response.isSuccessful()) {
+                            // Solicitud exitosa
+                            // Se crea el array JSON con TODAS las recetas
+                            String datos = response.body().string();
+                            //Log.d("getRecetasGlobales", "Exito:"+datos);
+
+
+                            JSONArray jsonArray = new JSONArray(datos);
+                            // Se itera sobre el JSON
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                // Se obtiene la informacion de la receta para luego guardarla en ArrayList
+                                int idReceta = jsonObject.getInt("idReceta");
+                                String nombre = jsonObject.getString("nombre");
+                                String urlFoto = jsonObject.getString("urlFoto");
+
+                                // Si son == 1 creamos la receta con esos valores como true, si no pues false
+                                boolean vegetariano = jsonObject.getInt("vegetariano") == 1;
+                                boolean vegano = jsonObject.getInt("vegano") == 1;
+                                boolean sinGluten = jsonObject.getInt("sinGluten") == 1;
+
+                                String ingredientes = jsonObject.getString("ingredientes");
+                                String instrucciones = jsonObject.getString("instrucciones");
+                                int tiempo = jsonObject.getInt("tiempo");
+                                String usuario = jsonObject.getString("usuario");
+
+                                // Se crea el objeto Receta
+                                Receta r = new Receta(idReceta, usuario, nombre, tiempo, ingredientes, instrucciones, vegetariano, vegano, sinGluten, urlFoto);
+                                // Se guarda en el arrayList
+                                addToListaRecetas(r);
+                                booleanDevolver = true;
+                            }
+
+
+
+                            //Log.d("getRecetasGlobales", "arrayList: "+getListaRecetas());
+
+                        } else {
+                            Log.d("getRecetasGlobales", "No se han podido conseguir las Recetas Globales");
+                            Log.d("getRecetasGlobales", response.toString());
+                        }
+
+                    response.close();
+                } catch (JSONException e) {
+                        Log.d("viewholder", "Ha habido excepcion" + e.toString());
+                        throw new RuntimeException(e);
+
+                    }
+                }
+            });
+        }
+
+        //Log.d("viewholder", "Desde DBRecetas: " + listaRecetas);
         // Si hay algun error con la peticion la lista deberia estar vacia
-        return listaRecetas;
+
+
+        return getListaRecetas();
     }
 
 
     public void addToListaRecetas(Receta r){
         listaRecetas.add(r);
-        Log.d("viewholder", "Desde addTo: " + listaRecetas);
 
     }
 
