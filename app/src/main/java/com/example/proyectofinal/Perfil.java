@@ -3,6 +3,7 @@ package com.example.proyectofinal;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 
@@ -57,14 +58,12 @@ public class Perfil extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getParentFragmentManager().setFragmentResultListener("user", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
-                // We use a String here, but any type that can be put in a Bundle is supported
-                String result = bundle.getString("usuario");
-                Log.d("Prueba onCreate", "user: " + result);
-            }
-        });
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            Log.d("On create", "entra bien");
+        }else{
+            Log.d("On create", "entra donde no debe");
+        }
     }
 
     @Override
@@ -77,20 +76,17 @@ public class Perfil extends Fragment {
 
         return view;
     }
-
     @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("Prueba onStart", "Pasa por onStart ");
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         getParentFragmentManager().setFragmentResultListener("user", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
-                // We use a String here, but any type that can be put in a Bundle is supported
                 String result = bundle.getString("usuario");
-                Log.d("Prueba onStart", "user: " + result);
                 usuario.setText(result);
+                Log.d("On ViewCreated", "usuario: " +result);
             }
         });
-        Log.d("Prueba onStart", "Pasa por onStart ");
     }
 }

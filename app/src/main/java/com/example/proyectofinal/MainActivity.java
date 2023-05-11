@@ -2,6 +2,8 @@ package com.example.proyectofinal;
 
 import static androidx.navigation.fragment.FragmentKt.findNavController;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -51,7 +54,14 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle result = new Bundle();
         result.putString("usuario", usuario);
-        getSupportFragmentManager().setFragmentResult("user", result);
+        //getSupportFragmentManager().setFragmentResult("user", result);
+        Perfil perfil = new Perfil();
+        perfil.setArguments(result);
+
+        // Agregar el fragmento a la actividad
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainerView, perfil)
+                .commit();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
