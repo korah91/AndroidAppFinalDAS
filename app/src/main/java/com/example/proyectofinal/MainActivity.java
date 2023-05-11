@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle result = new Bundle();
         result.putString("usuario", usuario);
-        //getSupportFragmentManager().setFragmentResult("user", result);
+        getSupportFragmentManager().setFragmentResult("user", result);
         Perfil perfil = new Perfil();
         perfil.setArguments(result);
 
