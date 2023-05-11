@@ -7,12 +7,16 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class LoginActivity extends AppCompatActivity {
     String user;
@@ -54,9 +58,16 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("Inicio_Prueba", "lista[0] --> " + lista[0]);
                         if (lista[0].equals(user) && lista[1].equals(pass)) {
                             Intent inicio = new Intent(LoginActivity.this, MainActivity.class);
-                            inicio.putExtra("user", user);
+
+                            //Añadimos al fichero (sesion) la informacion del usuario registrado
+                            try {
+                                OutputStreamWriter fichero = new OutputStreamWriter(openFileOutput("sesion.txt", Context.MODE_PRIVATE));
+                                fichero.write(user);
+                                fichero.close();
+                            } catch (IOException e){e.printStackTrace();}
+
+
                             startActivity(inicio);
-                            finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "Tu usuario o contraseña son incorrectos", Toast.LENGTH_LONG).show();
                         }
@@ -69,7 +80,14 @@ public class LoginActivity extends AppCompatActivity {
 
     public void invitado(View view){
         Intent inicio = new Intent(LoginActivity.this, MainActivity.class);
-        inicio.putExtra("user", user);
+
+        //Añadimos al fichero (sesion) la informacion del usuario registrado
+        try {
+            OutputStreamWriter fichero = new OutputStreamWriter(openFileOutput("sesion.txt", Context.MODE_PRIVATE));
+            fichero.write("-1");
+            fichero.close();
+        } catch (IOException e){e.printStackTrace();}
+
         startActivity(inicio);
     }
 }

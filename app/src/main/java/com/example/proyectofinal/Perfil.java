@@ -1,5 +1,6 @@
 package com.example.proyectofinal;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +38,7 @@ public class Perfil extends Fragment {
     private String mParam2;
     private TextView usuario;
     private TextView opciones;
+    private String result;
 
     public Perfil() {
         // Required empty public constructor
@@ -45,12 +53,11 @@ public class Perfil extends Fragment {
      * @return A new instance of fragment perfil.
      */
     // TODO: Rename and change types and number of parameters
-    public static Perfil newInstance(String param1) { //(String param1, String param2)
+    public static Perfil newInstance(String param1, String param2) {
         Perfil fragment = new Perfil();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
-        //args.putString("usuario", param1);
+        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,9 +67,7 @@ public class Perfil extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            Log.d("On create", "entra bien");
-        }else{
-            Log.d("On create", "entra donde no debe");
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -71,22 +76,20 @@ public class Perfil extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_perfil, container, false);
-        usuario = (TextView) view.findViewById(R.id.usuario);
-        opciones = (TextView) view.findViewById(R.id.preferencias);
+        usuario = (TextView) view.findViewById(R.id.textView);
+        //Leer usuario del fichero
+        try {
+            BufferedReader ficherointerno = new BufferedReader(new InputStreamReader(
+                    getActivity().openFileInput("sesion.txt")));
+            String linea = ficherointerno.readLine();
+            ficherointerno.close();
+            usuario.setText(linea);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
         return view;
-    }
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Log.d("On ViewCreated", "entra");
-        getParentFragmentManager().setFragmentResultListener("user", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
-                String result = bundle.getString("usuario");
-                usuario.setText(result);
-                Log.d("On ViewCreated", "usuario: " +result);
-            }
-        });
     }
 }

@@ -42,27 +42,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //recyclerView = findViewById(R.id.recycler_lista);
-        //recyclerView.setHasFixedSize(true);
-        //recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 1));
-        //adaptadorListaRecetas = new AdaptadorListaRecetas(MainActivity.this); //Aqui se le pasaria una lista con las recetas tambien
-        //recyclerView.setAdapter(adaptadorListaRecetas);
-
-        //Usuario de LoginActivity
-        Bundle extras = getIntent().getExtras();
-        String usuario = extras.getString("user");
-
-        Bundle result = new Bundle();
-        result.putString("usuario", usuario);
-        getSupportFragmentManager().setFragmentResult("user", result);
-        Perfil perfil = new Perfil();
-        perfil.setArguments(result);
-
-        // Agregar el fragmento a la actividad
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainerView, perfil)
-                .commit();
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
 
