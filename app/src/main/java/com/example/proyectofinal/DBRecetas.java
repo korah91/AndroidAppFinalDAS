@@ -82,7 +82,6 @@ public class DBRecetas {
                             String datos = response.body().string();
 
                             JSONArray jsonArray = new JSONArray(datos);
-                            Log.d("marcos", "LENGTH:" + jsonArray.length());
                             // Se itera sobre el JSON
                             if(primera) {
                                 primera = false;

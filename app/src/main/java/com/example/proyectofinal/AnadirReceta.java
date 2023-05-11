@@ -154,6 +154,11 @@ public class AnadirReceta extends Fragment {
         SeekBar seekBar = v.findViewById(R.id.seekBar_minutos);
         seekBar.setMax(60);
 
+        if (savedInstanceState != null){
+            currentPhotoPath = savedInstanceState.getString("imagen");
+            Glide.with(getContext()).load(currentPhotoPath).into(iv_imagenComida);
+        }
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged (SeekBar seekBar, int progress, boolean fromUser) {
                 tv_minutos.setText("Minutos: " + String.valueOf(progress));
@@ -169,12 +174,6 @@ public class AnadirReceta extends Fragment {
 
             }
         });
-
-        // Receta por defecto
-        et_nombreReceta.setText("Receta de ejemplo");
-        et_ingredientes.setText("200 ml Leche, 200 gr cacahuetes, una cuchara sopera de aceite");
-        et_instrucciones.setText("1. Reúne los ingredientes \n2. Blablabla");
-
 
         // Listener de la imagen, cuando se le da click se abre la camara
         iv_imagenComida.setOnClickListener(new View.OnClickListener() {
@@ -216,6 +215,9 @@ public class AnadirReceta extends Fragment {
                 else if(TextUtils.isEmpty(et_ingredientes.getText().toString())){
                     Toast.makeText(getContext(), "Introduce los ingredientes", Toast.LENGTH_SHORT).show();
                 }
+                else if (TextUtils.isEmpty(et_instrucciones.getText().toString())){
+                    Toast.makeText(getContext(), "Introduce las instrucciones", Toast.LENGTH_SHORT).show();
+                }
                 // Si esta todo lo necesario se realiza la conexion
 
                 else{
@@ -224,6 +226,7 @@ public class AnadirReceta extends Fragment {
                     int minutos = seekBar.getProgress();
 
                     String ingredientes = et_ingredientes.getText().toString();
+                    String instrucciones = et_instrucciones.getText().toString();
 
                     Boolean estadoVegano = checkBox_vegano.isChecked();
                     Boolean estadoVegetariano = false;
@@ -250,7 +253,7 @@ public class AnadirReceta extends Fragment {
                         json.put("nombreReceta", nombreReceta);
                         json.put("minutos", minutos);
                         json.put("ingredientes", ingredientes);
-                        json.put("instrucciones", "blabla");
+                        json.put("instrucciones", instrucciones);
                         json.put("vegetariano", estadoVegetariano ? 1 : 0); //Si es true mando 1, si false mando 0
                         json.put("vegano", estadoVegano ? 1 : 0);
                         json.put("sinGluten", estadoSinGluten ? 1 : 0);
@@ -349,8 +352,6 @@ public class AnadirReceta extends Fragment {
                         // Cargo la imagen en el imageView con Glide
                         Glide.with(getContext()).load(uri).into(iv_imagenComida);
                         urlFirebase = uri.toString();
-
-
                     }
                 });
                 Toast.makeText(getContext(), "Firebase upload SUCCEED", Toast.LENGTH_SHORT).show();
@@ -424,5 +425,11 @@ public class AnadirReceta extends Fragment {
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("imagen", currentPhotoPath);
     }
 }

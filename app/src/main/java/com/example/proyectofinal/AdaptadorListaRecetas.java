@@ -61,7 +61,7 @@ public class AdaptadorListaRecetas extends RecyclerView.Adapter<ListaRecetasView
         holder.tiempo_preparacion.setText("" + listaRecetas.get(position).getTiempo());
         holder.usuario_receta.setText("" + listaRecetas.get(position).getUsuario());
 
-        //Glide.with(context).load(listaRecetas.get(position).getUrlFoto()).into(holder.imagen_comida);
+        Glide.with(context).load(listaRecetas.get(position).getUrlFoto()).into(holder.imagen_comida);
 
         // Se ejecuta cuando se da click a un elemento
         holder.recetas_lay.setOnClickListener(new View.OnClickListener() {
