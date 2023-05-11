@@ -25,6 +25,7 @@ public class DBRecetas {
     Context context;
     final ArrayList<Receta> listaRecetas;
     boolean booleanDevolver = false;
+    boolean primera = true;
 
     public DBRecetas(@Nullable Context context) {
         super();
@@ -62,7 +63,7 @@ public class DBRecetas {
 
         // Mientras que no se descarguen las recetas no devuelve
         while (!booleanDevolver){
-            booleanDevolver = true;
+            //booleanDevolver = true;
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
                 @Override
@@ -83,27 +84,31 @@ public class DBRecetas {
                             JSONArray jsonArray = new JSONArray(datos);
                             Log.d("marcos", "LENGTH:" + jsonArray.length());
                             // Se itera sobre el JSON
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                // Se obtiene la informacion de la receta para luego guardarla en ArrayList
-                                int idReceta = jsonObject.getInt("idReceta");
-                                String nombre = jsonObject.getString("nombre");
-                                String urlFoto = jsonObject.getString("urlFoto");
+                            if(primera) {
+                                primera = false;
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    // Se obtiene la informacion de la receta para luego guardarla en ArrayList
+                                    int idReceta = jsonObject.getInt("idReceta");
+                                    String nombre = jsonObject.getString("nombre");
+                                    String urlFoto = jsonObject.getString("urlFoto");
 
-                                // Si son == 1 creamos la receta con esos valores como true, si no pues false
-                                boolean vegetariano = jsonObject.getInt("vegetariano") == 1;
-                                boolean vegano = jsonObject.getInt("vegano") == 1;
-                                boolean sinGluten = jsonObject.getInt("sinGluten") == 1;
+                                    // Si son == 1 creamos la receta con esos valores como true, si no pues false
+                                    boolean vegetariano = jsonObject.getInt("vegetariano") == 1;
+                                    boolean vegano = jsonObject.getInt("vegano") == 1;
+                                    boolean sinGluten = jsonObject.getInt("sinGluten") == 1;
 
-                                String ingredientes = jsonObject.getString("ingredientes");
-                                String instrucciones = jsonObject.getString("instrucciones");
-                                int tiempo = jsonObject.getInt("tiempo");
-                                String usuario = jsonObject.getString("usuario");
+                                    String ingredientes = jsonObject.getString("ingredientes");
+                                    String instrucciones = jsonObject.getString("instrucciones");
+                                    int tiempo = jsonObject.getInt("tiempo");
+                                    String usuario = jsonObject.getString("usuario");
 
-                                // Se crea el objeto Receta
-                                Receta r = new Receta(idReceta, usuario, nombre, tiempo, ingredientes, instrucciones, vegetariano, vegano, sinGluten, urlFoto);
-                                // Se guarda en el arrayList
-                                addToListaRecetas(r);
+                                    // Se crea el objeto Receta
+                                    Receta r = new Receta(idReceta, usuario, nombre, tiempo, ingredientes, instrucciones, vegetariano, vegano, sinGluten, urlFoto);
+                                    // Se guarda en el arrayList
+                                    addToListaRecetas(r);
+                                }
+                                booleanDevolver = true;
                             }
 
                         } else {
