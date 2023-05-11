@@ -7,10 +7,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,10 +71,19 @@ public class Comunidad extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_comunidad, container, false);
 
+        // Descargo todas las recetas del servidor
+        DBRecetas dbRecetas = new DBRecetas(this.getContext());
+        // Las cargo en un arrayList
+        ArrayList<Receta> listaRecetas = dbRecetas.getRecetasGlobales(false,false,false);
+        Log.d("viewholder", ":"+listaRecetas);
+
+        // Configuro el recyclerView
         recyclerView = view.findViewById(R.id.rv_recetas_comunidad);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        adaptadorListaRecetas = new AdaptadorListaRecetas(getActivity(), recetaClickListener); //Aqui se le pasaria una lista con las recetas tambien
+
+        // Aqui le paso la lista con las recetas
+        adaptadorListaRecetas = new AdaptadorListaRecetas(getActivity(), recetaClickListener, listaRecetas); //Aqui se le pasaria una lista con las recetas tambien
         recyclerView.setAdapter(adaptadorListaRecetas);
 
         // Inflate the layout for this fragment
@@ -80,10 +92,22 @@ public class Comunidad extends Fragment {
 
     private final RecetaClickListener recetaClickListener = new RecetaClickListener() {
         @Override
-        public void onRecetaClicked(String usuario, String titulo) {
+        public void onRecetaClicked(Receta recetaDetalles) {
             //De aqui se abriria con un Intent la clase que mostraría los detalles de la receta
-            Toast.makeText(getContext(), "El usuario es --> " + usuario + "\nLa receta es --> " + titulo, Toast.LENGTH_SHORT).show();
             Intent i = new Intent(getContext(), DetallesRecetas.class);
+
+            // Se mandan los datos de la receta
+            i.putExtra("usuario", recetaDetalles.getUsuario());
+            i.putExtra("nombre", recetaDetalles.getNombre());
+            i.putExtra("ingredientes", recetaDetalles.getIngredientes());
+            i.putExtra("instrucciones", recetaDetalles.getInstrucciones());
+            i.putExtra("urlFoto", recetaDetalles.getUrlFoto());
+            i.putExtra("idReceta", recetaDetalles.getIdReceta());
+            i.putExtra("tiempo", recetaDetalles.getTiempo());
+            i.putExtra("vegetariano", recetaDetalles.isVegetariano());
+            i.putExtra("vegano", recetaDetalles.isVegano());
+            i.putExtra("sinGluten", recetaDetalles.isSinGluten());
+
             startActivity(i);
         }
     };

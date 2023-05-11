@@ -2,21 +2,79 @@ package com.example.proyectofinal;
 
 public class Receta {
 
-    private String usuario, tituloReceta, ingredientes, pasosPreparacion, imagen;
-    private int tiempoPreparacion;
+    private String usuario, nombre, ingredientes, instrucciones, urlFoto;
+    private int idReceta, tiempo;
     private boolean vegetariano, vegano, sinGluten;
 
-    public Receta(String usuario, String tituloReceta, int tiempoPreparacion, String ingredientes,
-                  String pasosPreparacion, boolean vegetariano, boolean vegano, boolean sinGluten, String imagen) {
+    public Receta(int idReceta, String usuario, String nombre, int tiempo, String ingredientes,
+                  String instrucciones, boolean vegetariano, boolean vegano, boolean sinGluten, String urlFoto) {
         this.usuario = usuario;
-        this.tituloReceta = tituloReceta;
-        this.tiempoPreparacion = tiempoPreparacion;
+        this.nombre = nombre;
+        this.tiempo = tiempo;
         this.ingredientes = ingredientes;
-        this.pasosPreparacion = pasosPreparacion;
+        this.instrucciones = instrucciones;
         this.vegano = vegano;
         this.vegetariano = vegetariano;
         this.sinGluten = sinGluten;
-        this.imagen = imagen;
+        this.urlFoto = urlFoto;
     }
+
+    // Funcion para modificar cualquier campo de la receta
+    public void modificarReceta(String usuario, String nombre, int tiempo, String ingredientes,
+                           String instrucciones, boolean vegetariano, boolean vegano, boolean sinGluten, String urlFoto) {
+        this.usuario = usuario;
+        this.nombre = nombre;
+        this.tiempo = tiempo;
+        this.ingredientes = ingredientes;
+        this.instrucciones = instrucciones;
+        this.vegano = vegano;
+        this.vegetariano = vegetariano;
+        this.sinGluten = sinGluten;
+        this.urlFoto = urlFoto;
+    }
+
+    // Getters
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getIngredientes() {
+        return ingredientes;
+    }
+
+    public String getInstrucciones() {
+        return instrucciones;
+    }
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public int getIdReceta() {
+        return idReceta;
+    }
+
+    public int getTiempo() {
+        return tiempo;
+    }
+
+    public boolean isVegetariano() {
+        return vegetariano;
+    }
+
+    public boolean isVegano() {
+        return vegano;
+    }
+
+    public boolean isSinGluten() {
+        return sinGluten;
+    }
+
+
+
 
 }

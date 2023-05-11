@@ -1,78 +1,91 @@
 package com.example.proyectofinal;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class AdaptadorListaRecetas extends RecyclerView.Adapter<ListaRecetasViewHolder> {
 
     private Context context;
-    //List<Recipe> list;
+    ArrayList<Receta> listaRecetas;
+    private RecetaClickListener listener;
+
+    /*
     private String listaTit[] = {"Macarrones", "Lentejas"};
     private String listaTiemp[] = {"10 minutos", "30 minutos"};
     private String users[] = {"Manolito", "Cooking Mama"};
-    private boolean[] seleecionado;
-    private RecetaClickListener listener;
+    */
+    private boolean[] seleccionado;
 
-    public AdaptadorListaRecetas(Context context, RecetaClickListener listener) {
+
+
+    public AdaptadorListaRecetas(Context context, RecetaClickListener listener, ArrayList<Receta> listaRecetas) {
         this.context = context;
-        seleecionado = new boolean[listaTit.length];
+        seleccionado = new boolean[listaRecetas.size()];
         this.listener = listener;
+        this.listaRecetas = listaRecetas;
+
     }
 
     @NonNull
     @Override
+    // Cuando se crea una vista se le aplica el layout
     public ListaRecetasViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ListaRecetasViewHolder viewHolder = new ListaRecetasViewHolder(LayoutInflater.from(context).inflate(R.layout.lista_recetas, parent, false));
-        viewHolder.seleccion = seleecionado;
+        ListaRecetasViewHolder viewHolder = new ListaRecetasViewHolder(LayoutInflater.from(context)
+                .inflate(R.layout.lista_recetas, parent, false));
+        viewHolder.seleccion = seleccionado;
         return viewHolder;
     }
 
+    // Se consiguen los datos de cada receta de la BD y se ponen en cada vista
     @Override
-    public void onBindViewHolder(@NonNull ListaRecetasViewHolder holder, int position) {
-        holder.titulo.setText(listaTit[position]);
+    public void onBindViewHolder(@NonNull ListaRecetasViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
+
+        // Se pone el titulo de la receta
+        holder.titulo.setText("" + listaRecetas.get(position).getNombre());
         holder.titulo.setSelected(true);
-        //holder.num_likes.setText("20 likes");
-        holder.tiempo_preparacion.setText(listaTiemp[position]);
-        holder.usuario_receta.setText(users[position]);
+        holder.tiempo_preparacion.setText("" + listaRecetas.get(position).getTiempo());
+        holder.usuario_receta.setText("" + listaRecetas.get(position).getUsuario());
        /* holder.titulo.setText(list.get(position).title);
         holder.titulo.setSelected(true);
         holder.num_likes.setSelected(list.get(position).aggregateLikes+ " Likes");
         holder.tiempo_preparacion.setText(list.get(position).time+ " Minutos");
         holder.usuario_receta.setText(list.get(position).usuario);
         Picasso.get().load(list.get(position).image.into(holder.imagen_comida))*/
-        Glide.with(context).load(R.drawable.comidapordefecto).into(holder.imagen_comida);
+        Glide.with(context).load(listaRecetas.get(position).getUrlFoto()).into(holder.imagen_comida);
 
+        // Se ejecuta cuando se da click a un elemento
         holder.recetas_lay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Le paso la info que necesito de la receta
-                String usuario = String.valueOf(users[holder.getAdapterPosition()]);
-                String receta = String.valueOf(listaTit[holder.getAdapterPosition()]);
-                listener.onRecetaClicked(usuario, receta);
+                Receta recetaDetalle = listaRecetas.get(position);
+                listener.onRecetaClicked(recetaDetalle);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 2;//list.size()
+        return listaRecetas.size();
     }
 }
+
+// El ViewHolder controla cada vista
 class ListaRecetasViewHolder extends RecyclerView.ViewHolder{
     CardView recetas_lay;
     TextView titulo, tiempo_preparacion, usuario_receta;
