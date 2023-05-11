@@ -41,6 +41,7 @@
         android:text="Bienvenido Marcos"
         android:textSize="30sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_logout"
         app:layout_constraintHorizontal_bias="0.0"
