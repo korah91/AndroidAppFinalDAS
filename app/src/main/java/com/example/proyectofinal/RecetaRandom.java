@@ -25,7 +25,7 @@ import java.util.Random;
 
 public class RecetaRandom extends AppCompatActivity {
 
-    ArrayList<String> listaPart = new ArrayList<String>();
+    ArrayList<Receta> listaRecetas = new ArrayList<Receta>();
 
         //Codigo obtenido de --> https://youtu.be/y1fptOfsIRs : Autor --> TechPot
         //Valores de la ruleta
@@ -34,7 +34,7 @@ public class RecetaRandom extends AppCompatActivity {
         String recetaSeleccionada;
 
         //Indice Aleatorio
-        int randomSectorIndex, numTirada;
+        int randomSectorIndex, numTirada, part;
 
         //Lo que va a GIRAR
         ImageView wheel;
@@ -65,26 +65,21 @@ public class RecetaRandom extends AppCompatActivity {
                     }
                 }
                 else{
+                    DBRecetas dbRecetas = new DBRecetas(RecetaRandom.this);
+                    listaRecetas = dbRecetas.getRecetasGlobales(false, false, false);
                     Toast.makeText(this, "No hay preferencias", Toast.LENGTH_SHORT).show();
                 }
             }
-
-            //Luego hay que borrar
-            listaPart.add("Macarrones");
-            listaPart.add("Lentejas");
-            listaPart.add("Garbanzos");
-            listaPart.add("Helado de limon");
-            listaPart.add("Yogurt");
-            listaPart.add("San Jacobos");
 
             //Gestion del giro de pantalla para que se mantenga la animacion
             if (savedInstanceState != null) {
                 girando = savedInstanceState.getBoolean("giro");
                 dialogOn = savedInstanceState.getBoolean("dialogo");
+                part = savedInstanceState.getInt("seleccionado");
             }
 
             if (dialogOn) {
-                activarDialog(recetaSeleccionada);
+                activarDialog(listaRecetas.get(part));
             }
 
             //Lo que gira
@@ -141,19 +136,19 @@ public class RecetaRandom extends AppCompatActivity {
                     //Para cuando el giro pare
                     //Participante aleatorio
 
-                    double partRandom = Math.random() * listaPart.size();
-                    if (Math.round(partRandom) == listaPart.size()) {
-                        partRandom = listaPart.size() - 1.2;
+                    double partRandom = Math.random() * listaRecetas.size();
+                    if (Math.round(partRandom) == listaRecetas.size()) {
+                        partRandom = listaRecetas.size() - 1.2;
                     }
-                    int part = (int) Math.round(partRandom);
+                    part = (int) Math.round(partRandom);
 
                     //Fin Giro
                     girando = false;
 
                     //Recogemos la receta
-                    recetaSeleccionada = listaPart.get(part);
+                    recetaSeleccionada = listaRecetas.get(part).getNombre();
                     //Alerta de dialogo para participar en un doble o nada
-                    activarDialog(recetaSeleccionada);
+                    activarDialog(listaRecetas.get(part));
                 }
 
                 @Override
@@ -180,10 +175,10 @@ public class RecetaRandom extends AppCompatActivity {
             }
         }
 
-        private void activarDialog (String recetaSeleccionada){
+        private void activarDialog (Receta recetaSeleccionada){
             dialogOn = true;
             AlertDialog.Builder builder = new AlertDialog.Builder(RecetaRandom.this);
-            builder.setTitle("Receta Seleccionado : " + recetaSeleccionada);
+            builder.setTitle("Receta Seleccionado : " + recetaSeleccionada.getNombre());
             builder.setMessage("¿Quieres ver la receta?");
             builder.setCancelable(false);
 
@@ -191,7 +186,21 @@ public class RecetaRandom extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialogOn = false;
-                    dialog.cancel();
+                    Intent recetaData = new Intent(RecetaRandom.this, DetallesRecetas.class);
+                    // Se mandan los datos de la receta
+                    recetaData.putExtra("usuario", recetaSeleccionada.getUsuario());
+                    recetaData.putExtra("nombre", recetaSeleccionada.getNombre());
+                    recetaData.putExtra("ingredientes", recetaSeleccionada.getIngredientes());
+                    recetaData.putExtra("instrucciones", recetaSeleccionada.getInstrucciones());
+                    recetaData.putExtra("urlFoto", recetaSeleccionada.getUrlFoto());
+                    recetaData.putExtra("idReceta", recetaSeleccionada.getIdReceta());
+                    recetaData.putExtra("tiempo", recetaSeleccionada.getTiempo());
+                    recetaData.putExtra("vegetariano", recetaSeleccionada.isVegetariano());
+                    recetaData.putExtra("vegano", recetaSeleccionada.isVegano());
+                    recetaData.putExtra("sinGluten", recetaSeleccionada.isSinGluten());
+                    //Iniciamos la actividad
+                    startActivity(recetaData);
+                    finish();
                 }
             });
 
@@ -211,5 +220,6 @@ public class RecetaRandom extends AppCompatActivity {
             super.onSaveInstanceState(outState);
             outState.putBoolean("giro", girando);
             outState.putBoolean("dialogo", dialogOn);
+            outState.putInt("seleccionado", part);
         }
 }
