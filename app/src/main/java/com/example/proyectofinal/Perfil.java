@@ -34,7 +34,7 @@ public class Perfil extends Fragment {
     private String mParam1;
     private String mParam2;
     private TextView usuario;
-    private String result;
+    private String nombreUsuario;
     private Button bt_verRecetas, bt_editarDatos, bt_logOut;
 
     public Perfil() {
@@ -87,6 +87,7 @@ public class Perfil extends Fragment {
             //Comprobamos si es un usuario validado o es invitado
             if (!linea.equals("-1")){
                 usuario.setText("Bienvenido " + linea.toUpperCase());
+                nombreUsuario = linea;
             }
             else {
                 usuario.setText("INVITADO");
@@ -97,13 +98,25 @@ public class Perfil extends Fragment {
             e.printStackTrace();
         }
 
-        //Redirige a la pantalla de inicio sesión
+        //Cuando pulsa en el botón de "cerrar sesión" || iniciar sesión en el caso de invitado --> Redirige a la pantalla de inicio sesión
         bt_logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finishAffinity();
+            }
+        });
+
+        //Botón para ver las recetas subidas por el usuario
+        bt_verRecetas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent recetasUsuario = new Intent(getActivity(), RecetasUsuario.class);
+                recetasUsuario.putExtra("nombreUsuario", nombreUsuario);
+                Log.d("Comprobar_Usuario", "usuario --> " + nombreUsuario);
+
+                startActivity(recetasUsuario);
             }
         });
 

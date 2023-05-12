@@ -24,6 +24,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".RecetasUsuario"
+            android:exported="false" />
+        <activity
             android:name=".DetallesRecetas"
             android:exported="false" />
         <activity
@@ -50,7 +53,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC9jAJe3SSsnHtpb3k1qkjYM2yolgpoEPA"></meta-data>
+            android:value="AIzaSyC9jAJe3SSsnHtpb3k1qkjYM2yolgpoEPA" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
