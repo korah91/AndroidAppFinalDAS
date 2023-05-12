@@ -85,6 +85,7 @@ public class AnadirReceta extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
+    public static final int GALLERY_RQUEST_CODE = 105;
     private boolean activarDialog;
 
     private Uri imageUri;
@@ -343,10 +344,27 @@ public class AnadirReceta extends Fragment {
 
                 mediaScanIntent.setData(contentUri);
                 getActivity().sendBroadcast(mediaScanIntent);
+                Log.d("Prueba_gallery", "Desde la camara : " + f.getName());
 
                 uploadImageToFirebase(f.getName(), contentUri);
             }
         }
+
+        if (requestCode == GALLERY_RQUEST_CODE) {
+            if(resultCode == Activity.RESULT_OK){
+                Uri contentUri = data.getData();
+                String timeStamp = new SimpleDateFormat("yyyyMMddd_HHmmss").format(new Date());
+                String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
+                Log.d("Prueba_gallery", "Gallery image uri : " + imageFileName);
+                uploadImageToFirebase(imageFileName, contentUri);
+            }
+        }
+    }
+
+    private String getFileExt(Uri contentUri) {
+        ContentResolver c = getActivity().getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(c.getType(contentUri));
     }
 
 
@@ -368,7 +386,7 @@ public class AnadirReceta extends Fragment {
                         urlFirebase = uri.toString();
                     }
                 });
-                //Toast.makeText(getContext(), "Firebase upload SUCCEED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Firebase upload SUCCEED", Toast.LENGTH_SHORT).show();
             }
             // El onFailureListener se activa cuando falla
         }).addOnFailureListener(new OnFailureListener() {
@@ -476,6 +494,8 @@ public class AnadirReceta extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 activarDialog = false;
+                Intent galeria = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galeria, GALLERY_RQUEST_CODE);
             }
         });
 
