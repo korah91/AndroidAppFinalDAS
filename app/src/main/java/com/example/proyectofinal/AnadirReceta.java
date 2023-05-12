@@ -4,8 +4,10 @@ import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -83,6 +85,7 @@ public class AnadirReceta extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
+    private boolean activarDialog;
 
     private Uri imageUri;
     private ImageButton iv_imagenComida;
@@ -138,8 +141,7 @@ public class AnadirReceta extends Fragment {
         Context context = getContext();
 
         iv_imagenComida = v.findViewById(R.id.iv_imagenComida);
-        //Picasso.get().load(R.drawable.comidapordefecto).into(iv_imagenComida);
-        Glide.with(v).load(R.drawable.comidapordefecto).into(iv_imagenComida);
+        Glide.with(v).load(R.drawable.placeholder_comida).into(iv_imagenComida);
 
         EditText et_nombreReceta = v.findViewById(R.id.et_nombreReceta);
 
@@ -159,6 +161,12 @@ public class AnadirReceta extends Fragment {
         if (savedInstanceState != null){
             currentPhotoPath = savedInstanceState.getString("imagen");
             Glide.with(getContext()).load(currentPhotoPath).into(iv_imagenComida);
+            activarDialog = savedInstanceState.getBoolean("activarDialog");
+        }
+
+        //Se comprueba si el dialog estaba activo
+        if (activarDialog == true){
+            activarDialog();
         }
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -182,10 +190,7 @@ public class AnadirReceta extends Fragment {
 
             @Override
             public void onClick(View v) {
-                // Inicializamos Firebase
-                storageReference = FirebaseStorage.getInstance().getReference();
-                Log.d("imagen", "Se ha pulsado la imagen");
-                askCameraPermissions();
+                activarDialog();
             }
         });
 
@@ -223,6 +228,7 @@ public class AnadirReceta extends Fragment {
                     Toast.makeText(getContext(), "Introduce las instrucciones", Toast.LENGTH_SHORT).show();
                 }
                 else if (user.equals("-1")){
+                    iv_imagenComida.setVisibility(View.INVISIBLE);
                     Toast.makeText(getContext(), "Solo puedes subir recetas si has iniciado sesión", Toast.LENGTH_SHORT).show();
                 }
                 // Si esta todo lo necesario se realiza la conexion
@@ -362,7 +368,7 @@ public class AnadirReceta extends Fragment {
                         urlFirebase = uri.toString();
                     }
                 });
-                Toast.makeText(getContext(), "Firebase upload SUCCEED", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Firebase upload SUCCEED", Toast.LENGTH_SHORT).show();
             }
             // El onFailureListener se activa cuando falla
         }).addOnFailureListener(new OnFailureListener() {
@@ -435,12 +441,6 @@ public class AnadirReceta extends Fragment {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("imagen", currentPhotoPath);
-    }
-
     private String obtenerUsuario(){
         String user = "";
         try {
@@ -453,5 +453,40 @@ public class AnadirReceta extends Fragment {
             e.printStackTrace();
         }
         return user;
+    }
+
+    private void activarDialog(){
+        activarDialog = true;
+        AlertDialog.Builder builderOpciones = new AlertDialog.Builder(getActivity());
+        builderOpciones.setTitle("Elija la manera de incluir la foto");
+        //Obtener la foto de la cámara de fotos (En vivo)
+        builderOpciones.setPositiveButton("Obtener desde la cámara", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Inicializamos Firebase
+                storageReference = FirebaseStorage.getInstance().getReference();
+                activarDialog = false;
+                Log.d("imagen", "Se ha pulsado la imagen");
+                askCameraPermissions();
+            }
+        });
+
+        //Obtener la foto de la receta de la galeria
+        builderOpciones.setNegativeButton("Obtener desde la galeria", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                activarDialog = false;
+            }
+        });
+
+        builderOpciones.setCancelable(true);
+        builderOpciones.show();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("imagen", currentPhotoPath);
+        outState.putBoolean("activarDialog", activarDialog);
     }
 }

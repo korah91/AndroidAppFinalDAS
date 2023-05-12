@@ -17,16 +17,17 @@
 
             <ImageButton
                 android:id="@+id/iv_imagenComida"
-                android:layout_width="wrap_content"
-                android:layout_height="275dp"
+                android:layout_width="308dp"
+                android:layout_height="240dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:background="@drawable/placeholder_comida"
+                android:src="@drawable/placeholder_comida"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.492"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:textColor="@color/black"
-                android:backgroundTint="@color/black"
-                android:textColorHint="@color/black"
                 tools:src="@drawable/placeholder_comida" />
 
             <EditText
