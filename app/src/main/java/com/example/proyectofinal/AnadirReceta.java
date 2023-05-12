@@ -355,7 +355,7 @@ public class AnadirReceta extends Fragment {
                 Uri contentUri = data.getData();
                 String timeStamp = new SimpleDateFormat("yyyyMMddd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStamp + "." + getFileExt(contentUri);
-                Log.d("Prueba_gallery", "Gallery image uri : " + imageFileName);
+                Log.d("Prueba_gallery", "Gallery image uri : " + contentUri);
                 uploadImageToFirebase(imageFileName, contentUri);
             }
         }
@@ -371,7 +371,9 @@ public class AnadirReceta extends Fragment {
     // Sube la imagen a Firebase
     private void uploadImageToFirebase(String name, Uri contentUri) {
         // Crea el directorio
-        StorageReference image = storageReference.child("images/" + name);
+        Log.d("Prueba_gallery", "Desde uploadImageToFirebase: " + contentUri + "/" + name);
+        StorageReference image = storageReference.child("images/" +name);
+
         // El onSuccessListener se activa cuando se sube la imagen satisfactoriamente
         image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -493,6 +495,8 @@ public class AnadirReceta extends Fragment {
         builderOpciones.setNegativeButton("Obtener desde la galeria", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                // Inicializamos Firebase
+                storageReference = FirebaseStorage.getInstance().getReference();
                 activarDialog = false;
                 Intent galeria = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(galeria, GALLERY_RQUEST_CODE);
