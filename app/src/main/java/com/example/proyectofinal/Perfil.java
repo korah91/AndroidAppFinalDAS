@@ -74,7 +74,6 @@ public class Perfil extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_perfil, container, false);
         usuario = (TextView) view.findViewById(R.id.tv_usuario);
-        bt_editarDatos = (Button) view.findViewById(R.id.button_editar);
         bt_logOut = (Button) view.findViewById(R.id.button_logout);
         bt_verRecetas = (Button) view.findViewById(R.id.button_ver_recetas);
 
@@ -93,7 +92,6 @@ public class Perfil extends Fragment {
                 usuario.setText("INVITADO");
                 bt_verRecetas.setVisibility(View.INVISIBLE);
                 bt_logOut.setText("Iniciar Sesión");
-                bt_editarDatos.setVisibility(View.INVISIBLE);
             }
         } catch (IOException e) {
             e.printStackTrace();

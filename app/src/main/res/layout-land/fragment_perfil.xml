@@ -23,12 +23,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="154dp"
+        android:layout_marginTop="150dp"
         android:layout_marginEnd="174dp"
-        android:layout_marginBottom="23dp"
+        android:layout_marginBottom="10dp"
         android:text="Ver mis recetas"
-        app:layout_constraintBottom_toTopOf="@+id/button_editar"
+        app:layout_constraintBottom_toTopOf="@+id/button_logout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView" />
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_usuario"
@@ -49,26 +51,16 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Button
-        android:id="@+id/button_editar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="154dp"
-        android:layout_marginEnd="167dp"
-        android:layout_marginBottom="18dp"
-        android:text="Editar mis datos"
-        app:layout_constraintBottom_toTopOf="@+id/button_logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView" />
-
-    <Button
         android:id="@+id/button_logout"
         android:layout_width="175dp"
         android:layout_height="44dp"
         android:layout_marginStart="341dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="167dp"
-        android:layout_marginBottom="90dp"
+        android:layout_marginBottom="120dp"
         android:text="Cerrar Sesión"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_ver_recetas" />
 </androidx.constraintlayout.widget.ConstraintLayout>

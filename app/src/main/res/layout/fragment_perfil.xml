@@ -18,9 +18,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="120dp"
             android:layout_marginEnd="120dp"
-            android:layout_marginBottom="36dp"
+            android:layout_marginBottom="50dp"
             android:text="Ver mis recetas"
-            app:layout_constraintBottom_toTopOf="@+id/button_editar"
+            app:layout_constraintBottom_toTopOf="@+id/button_logout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.554"
             app:layout_constraintStart_toStartOf="parent" />
@@ -54,18 +54,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/chef_perfil"
             tools:src="@drawable/chef_perfil" />
-
-        <Button
-            android:id="@+id/button_editar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="120dp"
-            android:layout_marginEnd="120dp"
-            android:layout_marginBottom="36dp"
-            android:text="Editar mis datos"
-            app:layout_constraintBottom_toTopOf="@+id/button_logout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/button_logout"
