@@ -47,29 +47,21 @@ public class RecetaRandom extends AppCompatActivity {
         protected void onCreate (Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_receta_random);
+            DBRecetas dbRecetas = new DBRecetas(RecetaRandom.this);
+            boolean[] preferencias;
 
             //Se comprueban las preferencias
             Bundle extrasPreferencias = getIntent().getExtras();
             if (extrasPreferencias != null){
                 ArrayList<String> listaPreferencias = extrasPreferencias.getStringArrayList("preferencias");
-                if (listaPreferencias.size() != 0){
-                    Log.d("Prueba_Preferencias", "Preferencias --> " + listaPreferencias.get(0));
-                    if (listaPreferencias.size() == 3){
-                        Toast.makeText(this, "Preferencias : \n- " + listaPreferencias.get(0) + "\n- " + listaPreferencias.get(1) + "\n- " + listaPreferencias.get(2) , Toast.LENGTH_SHORT).show();
-                    }
-                    else if (listaPreferencias.size() == 2){
-                        Toast.makeText(this, "Preferencias : \n- " + listaPreferencias.get(0) + "\n- " + listaPreferencias.get(1), Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(this, "Preferencias : " + listaPreferencias.get(0), Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else{
-                    DBRecetas dbRecetas = new DBRecetas(RecetaRandom.this);
-                    listaRecetas = dbRecetas.getRecetasGlobales(false, false, false);
-                    Toast.makeText(this, "No hay preferencias", Toast.LENGTH_SHORT).show();
-                }
+                //Se comprueba que preferencias elige el usuario
+                preferencias = obtenerPreferencias(listaPreferencias);
+                //Se carga la lista con con las preferencias seleccionadas
+                Log.d("Prueba_lista", "vegano --> " + preferencias[0] + "\nvegetariano --> " + preferencias[1] + "\nsinGluten --> " + preferencias[2]);
+                listaRecetas = dbRecetas.getRecetasGlobales(preferencias[0], preferencias[1], preferencias[2]);
+                Log.d("Prueba_lista", "Size --> " + preferencias);
             }
+            else {Log.d("Prueba_lista", "Entro");}
 
             //Gestion del giro de pantalla para que se mantenga la animacion
             if (savedInstanceState != null) {
@@ -104,7 +96,27 @@ public class RecetaRandom extends AppCompatActivity {
 
         }
 
-        private void girar () {
+    private boolean[] obtenerPreferencias(ArrayList<String> listaPreferencias) {
+        boolean[] preferencias = {false, false, false}; //0: Vegetariano ; 1: Vegano; 2: sinGluten
+
+        if (listaPreferencias.size() != 0){
+            for (int i = 0; i < listaPreferencias.size(); i ++){
+                if (listaPreferencias.get(i).equals("Vegetariano")){
+                    preferencias[0] = true;
+                }
+                else if (listaPreferencias.get(i).equals("Vegano")){
+                    preferencias[1] = true;
+                }
+                else {
+                    preferencias[2] = true;
+                }
+            }
+        }
+        Log.d("Prueba_random", "Resultados del array --> " + preferencias[0]);
+        return preferencias;
+    }
+
+    private void girar () {
             //Obetener cualquier indice aleatorio
             double randomIndex = Math.random() * sectors.length;
             if (Math.round(randomIndex) == 8) {

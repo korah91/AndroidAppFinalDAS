@@ -82,6 +82,7 @@ public class DBRecetas {
                             // Solicitud exitosa
                             // Se crea el array JSON con TODAS las recetas
                             String datos = response.body().string();
+                            //Log.d("Prueba_datos", "Los datos --> " + datos);
 
                             JSONArray jsonArray = new JSONArray(datos);
                             // Se itera sobre el JSON
