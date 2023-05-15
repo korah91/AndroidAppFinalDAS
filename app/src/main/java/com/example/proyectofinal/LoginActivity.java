@@ -1,5 +1,7 @@
 package com.example.proyectofinal;
 
+import static java.lang.Boolean.TRUE;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.work.Data;
@@ -47,18 +49,17 @@ public class LoginActivity extends AppCompatActivity {
         }
         else {
             Data data = new Data.Builder()
-                    .putString("usuario", user).build();
+                    .putString("usuario", user).putString("password", pass).build();
             OneTimeWorkRequest otwr = new OneTimeWorkRequest.Builder(SelectCredenciales.class)
                     .setInputData(data).build();
             WorkManager.getInstance(LoginActivity.this).getWorkInfoByIdLiveData(otwr.getId()).observe(LoginActivity.this, new Observer<WorkInfo>() {
                 @Override
                 public void onChanged(WorkInfo workInfo) {
-                    if (workInfo != null && workInfo.getState().isFinished()) {
-                        String[] lista = workInfo.getOutputData().getStringArray("array");
-                        Log.d("Inicio_Prueba", "lista[0] --> " + lista[0]);
-                        if (lista[0].equals(user) && lista[1].equals(pass)) {
+                    if(workInfo != null && workInfo.getState().isFinished()){
+                        String resultado = workInfo.getOutputData().getString("result");
+                        if(resultado.equals("Bien")){
+                            // Login correcto
                             Intent inicio = new Intent(LoginActivity.this, MainActivity.class);
-
                             //Añadimos al fichero (sesion) la informacion del usuario registrado
                             try {
                                 OutputStreamWriter fichero = new OutputStreamWriter(openFileOutput("sesion.txt", Context.MODE_PRIVATE));
