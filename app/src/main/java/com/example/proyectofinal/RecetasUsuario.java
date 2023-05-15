@@ -36,22 +36,19 @@ public class RecetasUsuario extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recetas_usuario);
-    }
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.activity_recetas_usuario, container, false);
 
         // Descargo todas las recetas del servidor
+        DBRecetas dbRecetas = new DBRecetas(RecetasUsuario.this);
+
+        // Consigo el usuario que me ha llevado a la actividad
         Intent extras = getIntent();
         String usuario = extras.getStringExtra("nombreUsuario");
-        DBRecetas dbRecetas = new DBRecetas(RecetasUsuario.this);
+
         listaRec = dbRecetas.getRecetasUsuario(usuario);
         Log.d("getRecetasUsuario", "listaRecetasLongitud " +listaRec.size());
 
         // Configuro el recyclerView
-        recyclerView = view.findViewById(R.id.rv_recetas_usuario);
+        recyclerView = findViewById(R.id.rv_recetas_usuario);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(RecetasUsuario.this, 1));
 
@@ -59,8 +56,7 @@ public class RecetasUsuario extends AppCompatActivity {
         adaptadorListaRecetas = new AdaptadorListaRecetas(RecetasUsuario.this, recetaClickListener, listaRec); //Aqui se le pasaria una lista con las recetas tambien
         recyclerView.setAdapter(adaptadorListaRecetas);
 
-        // Inflate the layout for this fragment
-        return view;
+
     }
     private final RecetaClickListener recetaClickListener = new RecetaClickListener() {
         @Override
