@@ -9,25 +9,21 @@
 
     <ImageView
         android:id="@+id/iv_vegetariana"
-        android:layout_width="22dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="160dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_tiempo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_imgComida"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="@+id/iv_imgComida"
+        app:layout_constraintTop_toTopOf="@+id/iv_vegana"
         app:srcCompat="@drawable/vegetarian_icon" />
 
     <ImageView
         android:id="@+id/iv_vegana"
-        android:layout_width="22dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="29dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_tiempo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerInside"
         app:layout_constraintEnd_toStartOf="@+id/iv_gluten"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_vegetariana"
         app:layout_constraintTop_toBottomOf="@+id/iv_imgComida"
         app:srcCompat="@drawable/vegan_icon" />
 
@@ -64,21 +60,19 @@
         android:id="@+id/tv_tiempo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="150dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
         android:text="Tiempo de preparación : 40 minutos"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/tv_ingredientes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.354"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/tv_ingredientes"
+        app:layout_constraintTop_toBottomOf="@+id/iv_vegana" />
 
     <TextView
         android:id="@+id/tv_ingredientes"
         android:layout_width="354dp"
         android:layout_height="105dp"
-        android:layout_marginStart="18dp"
+        android:layout_marginStart="24dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="16dp"
         android:text="Ingredientes :
@@ -94,24 +88,21 @@
         android:id="@+id/tv_pasos"
         android:layout_width="370dp"
         android:layout_height="130dp"
-        android:layout_marginStart="16dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="63dp"
         android:text="Pasos a seguir : aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/tv_ingredientes" />
 
     <ImageView
         android:id="@+id/iv_gluten"
-        android:layout_width="22dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="26dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_tiempo"
-        app:layout_constraintEnd_toStartOf="@+id/iv_vegetariana"
-        app:layout_constraintTop_toBottomOf="@+id/iv_imgComida"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="@+id/iv_imgComida"
+        app:layout_constraintTop_toTopOf="@+id/iv_vegana"
         app:srcCompat="@drawable/trigo" />
 
 
