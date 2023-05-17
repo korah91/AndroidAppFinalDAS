@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -160,7 +161,7 @@ public class AnadirReceta extends Fragment {
         seekBar.setMax(60);
 
         if (savedInstanceState != null){
-            currentPhotoPath = savedInstanceState.getString("imagen");
+            urlFirebase = savedInstanceState.getString("imagen");
             Glide.with(getContext()).load(currentPhotoPath).into(iv_imagenComida);
             activarDialog = savedInstanceState.getBoolean("activarDialog");
         }
@@ -169,6 +170,8 @@ public class AnadirReceta extends Fragment {
         if (activarDialog == true){
             activarDialog();
         }
+
+        Glide.with(getContext()).load(urlFirebase).into(iv_imagenComida);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged (SeekBar seekBar, int progress, boolean fromUser) {
@@ -317,6 +320,16 @@ public class AnadirReceta extends Fragment {
                             response.close();
                         }
                     });
+                    //Se reinician los campos
+                    et_ingredientes.setText("");
+                    et_instrucciones.setText("");
+                    et_nombreReceta.setText("");
+                    tv_minutos.setText("Minutos: " + 0);
+                    checkBox_vegetariano.setChecked(false);
+                    checkBox_vegano.setChecked(false);
+                    checkBox_sinGluten.setChecked(false);
+                    seekBar.setProgress(0);
+                    iv_imagenComida.setImageDrawable(Drawable.createFromPath("@drawable/placeholder_comida.webp"));
                 }
             }
         });
@@ -503,14 +516,14 @@ public class AnadirReceta extends Fragment {
             }
         });
 
-        builderOpciones.setCancelable(true);
+        builderOpciones.setCancelable(false);
         builderOpciones.show();
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("imagen", currentPhotoPath);
+        outState.putString("imagen", urlFirebase);
         outState.putBoolean("activarDialog", activarDialog);
     }
 }
