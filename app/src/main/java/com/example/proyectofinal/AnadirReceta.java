@@ -258,8 +258,6 @@ public class AnadirReceta extends Fragment {
                         estadoVegetariano = checkBox_vegetariano.isChecked();
                     }
 
-
-
                     // Utilizo la libreria OkHttp
                     OkHttpClient client = new OkHttpClient();
                     MediaType mediaType = MediaType.parse("application/json");
@@ -401,13 +399,13 @@ public class AnadirReceta extends Fragment {
                         urlFirebase = uri.toString();
                     }
                 });
-                Toast.makeText(getContext(), "Firebase upload SUCCEED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Se ha subido la imagen", Toast.LENGTH_SHORT).show();
             }
             // El onFailureListener se activa cuando falla
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Firebase upload failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Fallo al subir la imagen", Toast.LENGTH_SHORT).show();
             }
         });
     }
