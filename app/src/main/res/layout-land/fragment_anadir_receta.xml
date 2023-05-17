@@ -28,8 +28,8 @@
 
             <EditText
                 android:id="@+id/et_nombreReceta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="245dp"
+                android:layout_height="43dp"
                 android:layout_marginStart="56dp"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="@color/black"
@@ -78,11 +78,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="19dp"
                 android:layout_marginTop="27dp"
-                android:layout_marginEnd="16dp"
                 android:backgroundTint="@color/cuatro"
                 android:text="Vegetariano"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toStartOf="@+id/checkBox_vegano"
                 app:layout_constraintStart_toEndOf="@+id/iv_imagenComida"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -90,32 +88,32 @@
                 android:id="@+id/checkBox_vegano"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="27dp"
-                android:layout_marginEnd="19dp"
                 android:backgroundTint="@color/black"
                 android:text="Vegano"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                app:layout_constraintEnd_toStartOf="@+id/checkBox_sinGluten"
+                app:layout_constraintStart_toEndOf="@+id/checkBox_vegetariano"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <CheckBox
                 android:id="@+id/checkBox_sinGluten"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="27dp"
-                android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/black"
                 android:text="SinGluten"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/checkBox_vegano"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/et_ingredientes"
-                android:layout_width="316dp"
-                android:layout_height="42dp"
+                android:layout_width="319dp"
+                android:layout_height="92dp"
                 android:layout_marginStart="22dp"
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="20dp"
@@ -137,8 +135,8 @@
 
             <EditText
                 android:id="@+id/et_instrucciones"
-                android:layout_width="316dp"
-                android:layout_height="41dp"
+                android:layout_width="319dp"
+                android:layout_height="90dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/black"
