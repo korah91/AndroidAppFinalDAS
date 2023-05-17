@@ -36,9 +36,9 @@
         android:id="@+id/tv_tituloReceta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="115dp"
+        android:layout_marginEnd="110dp"
         android:layout_marginBottom="10dp"
         android:text="Nombre de la Receta"
         android:textColor="@color/black"
@@ -80,9 +80,9 @@
         android:layout_width="315dp"
         android:layout_height="154dp"
         android:layout_marginStart="38dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="14dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="10dp"
         android:text="Ingredientes :
 \n\n- 1 Huevo
 \n- 2 manzanas
@@ -99,13 +99,15 @@
         android:layout_width="320dp"
         android:layout_height="118dp"
         android:layout_marginStart="36dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="1dp"
         android:layout_marginBottom="70dp"
         android:text="Pasos a seguir : aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_imgComida" />
+        app:layout_constraintStart_toEndOf="@+id/iv_imgComida"
+        app:layout_constraintTop_toBottomOf="@+id/tv_ingredientes" />
 
     <ImageView
         android:id="@+id/iv_imgComida"
