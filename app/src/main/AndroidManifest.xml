@@ -17,7 +17,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/patatalogo"
+        android:icon="@drawable/iconoapppatata"
         android:label="Cooking Papa"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoFinal"
